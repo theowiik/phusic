@@ -1,6 +1,5 @@
 {
   "assets": "chess",
-  "mockImage": "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=1200",
   "keybinds": {
     "nextPhase": [" ", "Enter"],
     "victory": ["v", "V"],
