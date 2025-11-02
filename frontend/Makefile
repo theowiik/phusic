@@ -1,4 +1,4 @@
-.PHONY: help dev format lint test ci docker-prod docker-dev docker-down docker-ci
+OPENING.PHONY: help dev format lint test ci docker-prod docker-dev docker-down docker-ci
 
 help:
 	@echo "Usage: make <target>"

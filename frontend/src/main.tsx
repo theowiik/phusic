@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import App from './app'
-import ConfigBuilder from './config-builder'
-import './index.css'
+import ConfigBuilderPage from './pages/config'
+import GamePage from './pages/game'
+import './styles/index.css'
 
 const rootElement = document.getElementById('root')
 if (!rootElement) {
@@ -14,8 +14,8 @@ ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/config" element={<ConfigBuilder />} />
+        <Route path="/" element={<GamePage />} />
+        <Route path="/config" element={<ConfigBuilderPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

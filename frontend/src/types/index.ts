@@ -27,3 +27,8 @@ export interface Config {
   defeat: Phase
   sfx?: SFX[]
 }
+
+export interface HelpItem {
+  label: string
+  keys: string
+}
