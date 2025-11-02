@@ -275,20 +275,7 @@ function App() {
   if (!config || !currentPhase) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black">
-        <div className="space-y-6 text-center">
-          <div className="animate-pulse font-black text-6xl text-white tracking-wider">LOADING</div>
-          <div className="flex justify-center gap-3">
-            <div className="h-3 w-3 animate-bounce rounded-full bg-white" />
-            <div
-              className="h-3 w-3 animate-bounce rounded-full bg-gray-400"
-              style={{ animationDelay: '0.15s' }}
-            />
-            <div
-              className="h-3 w-3 animate-bounce rounded-full bg-gray-600"
-              style={{ animationDelay: '0.3s' }}
-            />
-          </div>
-        </div>
+        <div className="text-white text-4xl">LOADING</div>
       </div>
     )
   }
@@ -300,56 +287,42 @@ function App() {
         <img
           src={currentImage}
           alt={currentPhase.name}
-          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000"
+          className="absolute inset-0 h-full w-full object-cover"
           style={{
             opacity: imageOpacity,
+            transition: 'opacity 1s',
           }}
         />
       )}
 
-      {/* Dark overlay for readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
-
       {/* Content Container */}
-      <div className="relative z-10 flex h-full flex-col p-6 md:p-10">
+      <div className="relative z-10 flex h-full flex-col p-6">
         {/* Top Info Bar */}
-        <div className="flex items-start justify-end">
+        <div className="flex justify-end">
           {currentImageFilename && (
-            <div className="rounded-xl border border-white/20 bg-black/50 px-4 py-2 backdrop-blur-lg">
-              <div className="max-w-xs truncate font-mono text-[10px] text-white/60">
-                {currentImageFilename}
-              </div>
+            <div className="bg-black/50 px-3 py-2">
+              <div className="font-mono text-xs text-white/60">{currentImageFilename}</div>
             </div>
           )}
         </div>
 
         {/* Center - Phase Name */}
         <div className="flex flex-1 items-center justify-center">
-          <div className="text-center">
-            <h1
-              className="text-7xl text-white tracking-tight md:text-9xl"
-              style={{
-                textShadow:
-                  '4px 4px 12px rgba(0,0,0,0.9), 8px 8px 24px rgba(0,0,0,0.6), 0 0 60px rgba(0,0,0,0.5)',
-                WebkitTextStroke: '2px rgba(0,0,0,0.3)',
-                paintOrder: 'stroke fill',
-              }}
-            >
-              {currentPhase.name.toUpperCase()}
-            </h1>
-          </div>
+          <h1 className="text-6xl text-white" style={{ textShadow: '2px 2px 4px black' }}>
+            {currentPhase.name.toUpperCase()}
+          </h1>
         </div>
 
         {/* Bottom Controls */}
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          <a
-            href="/config"
-            className="rounded-xl border border-white/30 bg-white/10 px-8 py-4 backdrop-blur-lg transition-all duration-300 hover:border-white/50 hover:bg-white/20"
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => setMuted(!muted)}
+            title={muted ? 'Unmute' : 'Mute'}
+            className="flex-1 bg-white text-black py-3 hover:bg-white/90 text-xl"
           >
-            <span className="font-bold text-sm text-white uppercase tracking-wide">
-              Config Builder
-            </span>
-          </a>
+            {muted ? '🔇' : '🔊'}
+          </button>
 
           <button
             type="button"
@@ -358,26 +331,21 @@ function App() {
               setShowHelp(true)
             }}
             title="Show keyboard shortcuts"
-            className="cursor-pointer rounded-xl border border-white/30 bg-white/10 px-8 py-4 backdrop-blur-lg transition-all duration-300 hover:border-white/50 hover:bg-white/20"
+            className="flex-1 bg-white text-black py-3 hover:bg-white/90 text-sm font-medium"
           >
-            <span className="font-bold text-sm text-white uppercase tracking-wide">Shortcuts</span>
+            Shortcuts
           </button>
 
-          <button
-            type="button"
-            onClick={() => setMuted(!muted)}
-            title={muted ? 'Unmute' : 'Mute'}
-            className="rounded-xl border border-white/30 bg-white/10 px-6 py-4 backdrop-blur-lg transition-all duration-300 hover:border-white/50 hover:bg-white/20"
-          >
-            <span className="text-white text-xl">{muted ? '🔇' : '🔊'}</span>
-          </button>
+          <a href="/config" className="flex-1 bg-white text-black py-3 hover:bg-white/90 text-sm font-medium text-center">
+            Config
+          </a>
         </div>
       </div>
 
       {/* Help Overlay */}
       {showHelp && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-xl"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               setShowHelp(false)
@@ -389,32 +357,21 @@ function App() {
             }
           }}
         >
-          <div className="mx-4 max-h-[85vh] w-full max-w-2xl overflow-y-auto rounded-2xl border-2 border-white/20 bg-zinc-900 p-10 shadow-2xl">
-            <div className="mb-8 flex items-center justify-between">
-              <h2 className="font-black text-4xl text-white tracking-tight">KEYBOARD SHORTCUTS</h2>
-              <button
-                type="button"
-                onClick={() => setShowHelp(false)}
-                aria-label="Close"
-                className="flex h-12 w-12 items-center justify-center rounded-lg text-3xl text-white/50 leading-none transition-all duration-200 hover:bg-white/10 hover:text-white"
-              >
+          <div className="max-w-2xl w-full bg-zinc-900 p-8">
+            <div className="mb-6 flex justify-between">
+              <h2 className="text-white text-3xl">KEYBOARD SHORTCUTS</h2>
+              <button type="button" onClick={() => setShowHelp(false)} aria-label="Close" className="text-white text-2xl">
                 ×
               </button>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               {getHelpText().map((item) => (
-                <div
-                  key={`${item.keys}-${item.label}`}
-                  className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-5 py-4 transition-all duration-200 hover:bg-white/10"
-                >
-                  <span className="font-semibold text-base text-white">{item.label}</span>
+                <div key={`${item.keys}-${item.label}`} className="flex justify-between bg-white/5 px-4 py-3">
+                  <span className="text-white">{item.label}</span>
                   <div className="flex gap-2">
                     {item.keys.split('/').map((key) => (
-                      <kbd
-                        key={key}
-                        className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 font-bold font-mono text-sm text-white"
-                      >
+                      <kbd key={key} className="bg-white/10 px-3 py-1 font-mono text-white text-sm">
                         {key}
                       </kbd>
                     ))}
@@ -423,13 +380,9 @@ function App() {
               ))}
             </div>
 
-            <div className="mt-8 text-center">
-              <p className="text-sm text-white/60">
-                Press{' '}
-                <kbd className="mx-1 rounded border border-white/20 bg-white/10 px-3 py-1 font-mono text-white text-xs">
-                  ESC
-                </kbd>{' '}
-                to close
+            <div className="mt-6 text-center">
+              <p className="text-white/60 text-sm">
+                Press <kbd className="bg-white/10 px-2 py-1 font-mono text-white text-xs">ESC</kbd> to close
               </p>
             </div>
           </div>
