@@ -1,5 +1,17 @@
 import { useState, useEffect, useRef } from 'react'
 
+// Get config path from URL params or use default
+const getConfigPath = () => {
+  const params = new URLSearchParams(window.location.search)
+  const game = params.get('game') || 'eldritch_horror'
+  return `/assets/${game}/config.json`
+}
+
+// Helper to check if key matches any keybind
+const matchesKeybind = (key, keybindArray) => {
+  return keybindArray && Array.isArray(keybindArray) && keybindArray.includes(key)
+}
+
 function App() {
   const [config, setConfig] = useState(null)
   const [currentPhase, setCurrentPhase] = useState(null)
@@ -15,13 +27,6 @@ function App() {
   const sfxRef = useRef(null)
   const currentMusicRef = useRef(1) // Track which music ref is active
   const fadeIntervalRef = useRef(null)
-
-  // Get config path from URL params or use default
-  const getConfigPath = () => {
-    const params = new URLSearchParams(window.location.search)
-    const game = params.get('game') || 'eldritch_horror'
-    return `/assets/${game}/config.json`
-  }
 
   // Load config on mount
   useEffect(() => {
@@ -142,11 +147,6 @@ function App() {
     }, 500) // Half of transition time
   }, [currentPhase, config])
 
-  // Helper to check if key matches any keybind
-  const matchesKeybind = (key, keybindArray) => {
-    return keybindArray && Array.isArray(keybindArray) && keybindArray.includes(key)
-  }
-
   // Keyboard controls
   useEffect(() => {
     if (!config || !config.keybinds) return
@@ -188,7 +188,7 @@ function App() {
       // SFX (1-9)
       if (matchesKeybind(e.key, keybinds.sfx)) {
         e.preventDefault()
-        const sfxIndex = parseInt(e.key) - 1
+        const sfxIndex = Number.parseInt(e.key) - 1
         const sfx = config.sfx?.[sfxIndex]
         if (sfx && sfxRef.current) {
           const sfxPath = `/assets/${config.assets}/${sfx.file}`
@@ -304,8 +304,8 @@ function App() {
       {showHelp && (
         <div className="absolute top-0 left-0 w-full h-full bg-black/70 text-white flex items-center justify-center z-[100]">
           <div className="text-2xl leading-8">
-            {getHelpText().map((item, idx) => (
-              <div key={idx}>
+            {getHelpText().map((item) => (
+              <div key={`${item.keys}-${item.label}`}>
                 <strong>{item.keys}:</strong> {item.label}
               </div>
             ))}
@@ -314,9 +314,15 @@ function App() {
       )}
 
       {/* Audio Elements */}
-      <audio ref={musicRef1} />
-      <audio ref={musicRef2} />
-      <audio ref={sfxRef} />
+      <audio ref={musicRef1}>
+        <track kind="captions" />
+      </audio>
+      <audio ref={musicRef2}>
+        <track kind="captions" />
+      </audio>
+      <audio ref={sfxRef}>
+        <track kind="captions" />
+      </audio>
     </div>
   )
 }
