@@ -300,15 +300,69 @@ function App() {
         </div>
       )}
 
+      {/* Help Button */}
+      <button
+        onClick={() => setShowHelp(true)}
+        className="absolute top-4 right-4 bg-black/80 hover:bg-black/95 text-white px-5 py-2.5 rounded-lg z-10 transition-all duration-200 shadow-lg hover:shadow-xl border border-white/20 hover:border-white/40 flex items-center gap-2 font-medium"
+        title="Show keyboard shortcuts"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        Shortcuts
+      </button>
+
       {/* Help Overlay */}
       {showHelp && (
-        <div className="absolute top-0 left-0 w-full h-full bg-black/70 text-white flex items-center justify-center z-[100]">
-          <div className="text-2xl leading-8">
-            {getHelpText().map((item) => (
-              <div key={`${item.keys}-${item.label}`}>
-                <strong>{item.keys}:</strong> {item.label}
-              </div>
-            ))}
+        <div
+          className="absolute top-0 left-0 w-full h-full bg-black/60 text-white flex items-center justify-center z-[100] animate-fadeIn"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowHelp(false)
+            }
+          }}
+        >
+          <div className="bg-white text-gray-900 p-6 rounded-lg max-w-lg w-full mx-4 relative shadow-2xl animate-slideUp">
+            <button
+              onClick={() => setShowHelp(false)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-900 text-2xl leading-none w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 transition-colors"
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <h2 className="text-2xl font-semibold mb-4">Keyboard Shortcuts</h2>
+            <div className="space-y-2 max-h-[50vh] overflow-y-auto">
+              {getHelpText().map((item) => (
+                <div
+                  key={`${item.keys}-${item.label}`}
+                  className="flex justify-between items-center py-2 border-b border-gray-200 last:border-0"
+                >
+                  <span className="text-base text-gray-700">{item.label}</span>
+                  <div className="flex gap-1.5">
+                    {item.keys.split('/').map((key, idx) => (
+                      <kbd
+                        key={idx}
+                        className="font-mono bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-medium border border-gray-300"
+                      >
+                        {key}
+                      </kbd>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 text-xs text-gray-500 text-center">Click outside to close</div>
           </div>
         </div>
       )}
