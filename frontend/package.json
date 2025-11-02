@@ -7,9 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "format": "biome format --write .",
-    "format:check": "biome format .",
-    "lint": "biome lint .",
+    "format": "biome check --fix --unsafe",
+    "check": "biome check",
     "test": "vitest run"
   },
   "dependencies": {

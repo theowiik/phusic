@@ -32,8 +32,7 @@ def check_file_naming() -> bool:
 
 
 checks: list[tuple[str, str | Callable[[], bool]]] = [
-    ("Format", "npm run format:check"),
-    ("Lint", "npm run lint"),
+    ("Biome check", "npm run check"),
     ("TypeScript", "npx tsc --noEmit"),
     ("Test", "npm run test"),
     ("File naming", check_file_naming)

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { Config, Phase } from './types'
 
 // Get config path from URL params or use default
@@ -94,7 +94,6 @@ function App() {
     const isActivePlaying = activeRef.current && !activeRef.current.paused
 
     fadeIntervalRef.current = setInterval(() => {
-
       step++
       const progress = step / steps
 
@@ -275,15 +274,19 @@ function App() {
 
   if (!config || !currentPhase) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-black">
-        <div className="text-center space-y-6">
-          <div className="text-6xl font-black tracking-wider animate-pulse text-white">
-            LOADING
-          </div>
-          <div className="flex gap-3 justify-center">
-            <div className="w-3 h-3 bg-white rounded-full animate-bounce" />
-            <div className="w-3 h-3 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }} />
-            <div className="w-3 h-3 bg-gray-600 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }} />
+      <div className="flex min-h-screen items-center justify-center bg-black">
+        <div className="space-y-6 text-center">
+          <div className="animate-pulse font-black text-6xl text-white tracking-wider">LOADING</div>
+          <div className="flex justify-center gap-3">
+            <div className="h-3 w-3 animate-bounce rounded-full bg-white" />
+            <div
+              className="h-3 w-3 animate-bounce rounded-full bg-gray-400"
+              style={{ animationDelay: '0.15s' }}
+            />
+            <div
+              className="h-3 w-3 animate-bounce rounded-full bg-gray-600"
+              style={{ animationDelay: '0.3s' }}
+            />
           </div>
         </div>
       </div>
@@ -291,13 +294,13 @@ function App() {
   }
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-black">
+    <div className="relative h-screen w-full overflow-hidden bg-black">
       {/* Background Image */}
       {currentImage && (
         <img
           src={currentImage}
           alt={currentPhase.name}
-          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000"
           style={{
             opacity: imageOpacity,
           }}
@@ -308,23 +311,26 @@ function App() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
 
       {/* Content Container */}
-      <div className="relative z-10 flex flex-col h-full p-6 md:p-10">
+      <div className="relative z-10 flex h-full flex-col p-6 md:p-10">
         {/* Top Info Bar */}
-        <div className="flex justify-end items-start">
+        <div className="flex items-start justify-end">
           {currentImageFilename && (
-            <div className="bg-black/50 backdrop-blur-lg border border-white/20 px-4 py-2 rounded-xl">
-              <div className="text-white/60 text-[10px] font-mono max-w-xs truncate">{currentImageFilename}</div>
+            <div className="rounded-xl border border-white/20 bg-black/50 px-4 py-2 backdrop-blur-lg">
+              <div className="max-w-xs truncate font-mono text-[10px] text-white/60">
+                {currentImageFilename}
+              </div>
             </div>
           )}
         </div>
 
         {/* Center - Phase Name */}
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex flex-1 items-center justify-center">
           <div className="text-center">
             <h1
-              className="text-7xl md:text-9xl tracking-tight text-white"
+              className="text-7xl text-white tracking-tight md:text-9xl"
               style={{
-                textShadow: '4px 4px 12px rgba(0,0,0,0.9), 8px 8px 24px rgba(0,0,0,0.6), 0 0 60px rgba(0,0,0,0.5)',
+                textShadow:
+                  '4px 4px 12px rgba(0,0,0,0.9), 8px 8px 24px rgba(0,0,0,0.6), 0 0 60px rgba(0,0,0,0.5)',
                 WebkitTextStroke: '2px rgba(0,0,0,0.3)',
                 paintOrder: 'stroke fill',
               }}
@@ -335,12 +341,12 @@ function App() {
         </div>
 
         {/* Bottom Controls */}
-        <div className="flex flex-wrap gap-4 justify-center items-center">
+        <div className="flex flex-wrap items-center justify-center gap-4">
           <a
             href="/config"
-            className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-lg border border-white/30 hover:border-white/50 rounded-xl transition-all duration-300"
+            className="rounded-xl border border-white/30 bg-white/10 px-8 py-4 backdrop-blur-lg transition-all duration-300 hover:border-white/50 hover:bg-white/20"
           >
-            <span className="text-white font-bold tracking-wide uppercase text-sm">
+            <span className="font-bold text-sm text-white uppercase tracking-wide">
               Config Builder
             </span>
           </a>
@@ -352,22 +358,18 @@ function App() {
               setShowHelp(true)
             }}
             title="Show keyboard shortcuts"
-            className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-lg border border-white/30 hover:border-white/50 rounded-xl transition-all duration-300 cursor-pointer"
+            className="cursor-pointer rounded-xl border border-white/30 bg-white/10 px-8 py-4 backdrop-blur-lg transition-all duration-300 hover:border-white/50 hover:bg-white/20"
           >
-            <span className="text-white font-bold tracking-wide uppercase text-sm">
-              Shortcuts
-            </span>
+            <span className="font-bold text-sm text-white uppercase tracking-wide">Shortcuts</span>
           </button>
 
           <button
             type="button"
             onClick={() => setMuted(!muted)}
             title={muted ? 'Unmute' : 'Mute'}
-            className="px-6 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-lg border border-white/30 hover:border-white/50 rounded-xl transition-all duration-300"
+            className="rounded-xl border border-white/30 bg-white/10 px-6 py-4 backdrop-blur-lg transition-all duration-300 hover:border-white/50 hover:bg-white/20"
           >
-            <span className="text-white text-xl">
-              {muted ? '🔇' : '🔊'}
-            </span>
+            <span className="text-white text-xl">{muted ? '🔇' : '🔊'}</span>
           </button>
         </div>
       </div>
@@ -387,16 +389,14 @@ function App() {
             }
           }}
         >
-          <div className="bg-zinc-900 border-2 border-white/20 rounded-2xl shadow-2xl p-10 max-w-2xl w-full mx-4 max-h-[85vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-4xl font-black tracking-tight text-white">
-                KEYBOARD SHORTCUTS
-              </h2>
+          <div className="mx-4 max-h-[85vh] w-full max-w-2xl overflow-y-auto rounded-2xl border-2 border-white/20 bg-zinc-900 p-10 shadow-2xl">
+            <div className="mb-8 flex items-center justify-between">
+              <h2 className="font-black text-4xl text-white tracking-tight">KEYBOARD SHORTCUTS</h2>
               <button
                 type="button"
                 onClick={() => setShowHelp(false)}
                 aria-label="Close"
-                className="text-white/50 hover:text-white hover:bg-white/10 w-12 h-12 flex items-center justify-center transition-all duration-200 text-3xl leading-none rounded-lg"
+                className="flex h-12 w-12 items-center justify-center rounded-lg text-3xl text-white/50 leading-none transition-all duration-200 hover:bg-white/10 hover:text-white"
               >
                 ×
               </button>
@@ -406,16 +406,14 @@ function App() {
               {getHelpText().map((item) => (
                 <div
                   key={`${item.keys}-${item.label}`}
-                  className="flex items-center justify-between py-4 px-5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-200"
+                  className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-5 py-4 transition-all duration-200 hover:bg-white/10"
                 >
-                  <span className="text-white font-semibold text-base">
-                    {item.label}
-                  </span>
+                  <span className="font-semibold text-base text-white">{item.label}</span>
                   <div className="flex gap-2">
                     {item.keys.split('/').map((key) => (
                       <kbd
                         key={key}
-                        className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white font-mono text-sm font-bold"
+                        className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 font-bold font-mono text-sm text-white"
                       >
                         {key}
                       </kbd>
@@ -428,7 +426,7 @@ function App() {
             <div className="mt-8 text-center">
               <p className="text-sm text-white/60">
                 Press{' '}
-                <kbd className="px-3 py-1 bg-white/10 border border-white/20 rounded text-white font-mono text-xs mx-1">
+                <kbd className="mx-1 rounded border border-white/20 bg-white/10 px-3 py-1 font-mono text-white text-xs">
                   ESC
                 </kbd>{' '}
                 to close
