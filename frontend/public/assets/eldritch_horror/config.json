@@ -1,0 +1,61 @@
+{
+  "assets": "eldritch_horror",
+  "mockImage": "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_16x9.jpg?w=1200",
+  "keybinds": {
+    "nextPhase": [" ", "Enter"],
+    "victory": ["v", "V"],
+    "defeat": ["d", "D"],
+    "sfx": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    "mute": ["m", "M"],
+    "help": ["h", "H"]
+  },
+  "phases": [
+    {
+      "name": "Opening",
+      "next": 1,
+      "images": ["opening1.jpg", "opening2.jpg"],
+      "music": ["opening_music.mp3"]
+    },
+    {
+      "name": "Investigation",
+      "next": 2,
+      "images": ["investigation1.jpg", "investigation2.jpg"],
+      "music": ["investigation_music.mp3"]
+    },
+    {
+      "name": "Rising Tension",
+      "next": 3,
+      "images": ["tension1.jpg"],
+      "music": ["tension_music.mp3"]
+    },
+    {
+      "name": "Climax",
+      "next": 0,
+      "images": ["climax1.jpg"],
+      "music": ["climax_music.mp3"]
+    }
+  ],
+  "victory": {
+    "name": "Victory",
+    "next": 0,
+    "images": ["victory.jpg"],
+    "music": ["victory_music.mp3"]
+  },
+  "defeat": {
+    "name": "Defeat",
+    "next": 0,
+    "images": ["defeat.jpg"],
+    "music": ["defeat_music.mp3"]
+  },
+  "sfx": [
+    { "file": "sfx1.mp3" },
+    { "file": "sfx2.mp3" },
+    { "file": "sfx3.mp3" },
+    { "file": "sfx4.mp3" },
+    { "file": "sfx5.mp3" },
+    { "file": "sfx6.mp3" },
+    { "file": "sfx7.mp3" },
+    { "file": "sfx8.mp3" },
+    { "file": "sfx9.mp3" }
+  ]
+}
