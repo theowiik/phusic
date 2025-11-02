@@ -1,5 +1,5 @@
 # Base stage with Node.js and Python
-FROM node:20-alpine AS base
+FROM node:24-alpine AS base
 RUN apk add --no-cache python3 py3-pip
 WORKDIR /app
 

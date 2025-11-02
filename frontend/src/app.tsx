@@ -1,32 +1,33 @@
 import { useState, useEffect, useRef } from 'react'
+import type { Config, Phase } from './types'
 
 // Get config path from URL params or use default
-const getConfigPath = () => {
+const getConfigPath = (): string => {
   const params = new URLSearchParams(window.location.search)
   const game = params.get('game') || 'eldritch_horror'
   return `/assets/${game}/config.json`
 }
 
 // Helper to check if key matches any keybind
-const matchesKeybind = (key, keybindArray) => {
-  return keybindArray && Array.isArray(keybindArray) && keybindArray.includes(key)
+const matchesKeybind = (key: string, keybindArray: string[] | undefined): boolean => {
+  return keybindArray !== undefined && Array.isArray(keybindArray) && keybindArray.includes(key)
 }
 
 function App() {
-  const [config, setConfig] = useState(null)
-  const [currentPhase, setCurrentPhase] = useState(null)
-  const [volume, setVolume] = useState(1)
-  const [muted, setMuted] = useState(false)
-  const [showHelp, setShowHelp] = useState(false)
-  const [currentImage, setCurrentImage] = useState('')
-  const [currentImageFilename, setCurrentImageFilename] = useState('')
-  const [imageOpacity, setImageOpacity] = useState(1)
+  const [config, setConfig] = useState<Config | null>(null)
+  const [currentPhase, setCurrentPhase] = useState<Phase | null>(null)
+  const [volume] = useState<number>(1)
+  const [muted, setMuted] = useState<boolean>(false)
+  const [showHelp, setShowHelp] = useState<boolean>(false)
+  const [currentImage, setCurrentImage] = useState<string>('')
+  const [currentImageFilename, setCurrentImageFilename] = useState<string>('')
+  const [imageOpacity, setImageOpacity] = useState<number>(1)
 
-  const musicRef1 = useRef(null)
-  const musicRef2 = useRef(null)
-  const sfxRef = useRef(null)
-  const currentMusicRef = useRef(1) // Track which music ref is active
-  const fadeIntervalRef = useRef(null)
+  const musicRef1 = useRef<HTMLAudioElement>(null)
+  const musicRef2 = useRef<HTMLAudioElement>(null)
+  const sfxRef = useRef<HTMLAudioElement>(null)
+  const currentMusicRef = useRef<number>(1) // Track which music ref is active
+  const fadeIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   // Load config on mount
   useEffect(() => {
@@ -78,7 +79,6 @@ function App() {
 
     // Fade out current, fade in new
     const fadeOutDuration = 1000 // 1 second
-    const fadeInDuration = 1000 // 1 second
     const steps = 50
     const stepTime = fadeOutDuration / steps
     let step = 0
@@ -112,7 +112,9 @@ function App() {
           activeRef.current.currentTime = 0
         }
         currentMusicRef.current = currentMusicRef.current === 1 ? 2 : 1
-        clearInterval(fadeIntervalRef.current)
+        if (fadeIntervalRef.current !== null) {
+          clearInterval(fadeIntervalRef.current)
+        }
       }
     }, stepTime)
 
@@ -151,9 +153,13 @@ function App() {
   useEffect(() => {
     if (!config || !config.keybinds) return
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       // Ignore if typing in an input
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return
+      if (
+        (e.target as HTMLElement).tagName === 'INPUT' ||
+        (e.target as HTMLElement).tagName === 'TEXTAREA'
+      )
+        return
 
       const { keybinds } = config
 
@@ -188,7 +194,7 @@ function App() {
       // SFX (1-9)
       if (matchesKeybind(e.key, keybinds.sfx)) {
         e.preventDefault()
-        const sfxIndex = Number.parseInt(e.key) - 1
+        const sfxIndex = Number.parseInt(e.key, 10) - 1
         const sfx = config.sfx?.[sfxIndex]
         if (sfx && sfxRef.current) {
           const sfxPath = `/assets/${config.assets}/${sfx.file}`
@@ -230,14 +236,14 @@ function App() {
   }, [volume, muted])
 
   // Build help text from config keybinds
-  const getHelpText = () => {
+  const getHelpText = (): Array<{ label: string; keys: string }> => {
     if (!config || !config.keybinds) return []
 
     const { keybinds } = config
-    const help = []
+    const help: Array<{ label: string; keys: string }> = []
 
     // Helper to format key names for display
-    const formatKeys = (keys) => {
+    const formatKeys = (keys: string[]): string => {
       return keys.map((k) => (k === ' ' ? 'Space' : k.toUpperCase())).join('/')
     }
 
@@ -268,10 +274,9 @@ function App() {
   }
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden">
+    <div>
       {/* Background Image */}
       <div
-        className="absolute top-0 left-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out"
         style={{
           backgroundImage: `url(${currentImage})`,
           opacity: imageOpacity,
@@ -279,90 +284,48 @@ function App() {
       />
 
       {/* Phase Name Overlay */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl text-white text-center z-10 pointer-events-none"
-        style={{
-          textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8), -1px -1px 2px rgba(0, 0, 0, 0.8)',
-        }}
-      >
-        {currentPhase.name}
-      </div>
+      <div>{currentPhase.name}</div>
 
       {/* Image Filename Display */}
-      {currentImageFilename && (
-        <div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-base text-white bg-black/50 px-4 py-2 rounded z-10 pointer-events-none"
-          style={{
-            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
-          }}
-        >
-          {currentImageFilename}
-        </div>
-      )}
+      {currentImageFilename && <div>{currentImageFilename}</div>}
 
       {/* Help Button */}
-      <button
-        onClick={() => setShowHelp(true)}
-        className="absolute top-4 right-4 bg-black/80 hover:bg-black/95 text-white px-5 py-2.5 rounded-lg z-10 transition-all duration-200 shadow-lg hover:shadow-xl border border-white/20 hover:border-white/40 flex items-center gap-2 font-medium"
-        title="Show keyboard shortcuts"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
+      <button type="button" onClick={() => setShowHelp(true)} title="Show keyboard shortcuts">
         Shortcuts
       </button>
 
       {/* Help Overlay */}
       {showHelp && (
         <div
-          className="absolute top-0 left-0 w-full h-full bg-black/60 text-white flex items-center justify-center z-[100] animate-fadeIn"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               setShowHelp(false)
             }
           }}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape' || (e.key === 'Enter' && e.target === e.currentTarget)) {
+              setShowHelp(false)
+            }
+          }}
         >
-          <div className="bg-white text-gray-900 p-6 rounded-lg max-w-lg w-full mx-4 relative shadow-2xl animate-slideUp">
-            <button
-              onClick={() => setShowHelp(false)}
-              className="absolute top-3 right-3 text-gray-400 hover:text-gray-900 text-2xl leading-none w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 transition-colors"
-              aria-label="Close"
-            >
+          <div>
+            <button type="button" onClick={() => setShowHelp(false)} aria-label="Close">
               ×
             </button>
-            <h2 className="text-2xl font-semibold mb-4">Keyboard Shortcuts</h2>
-            <div className="space-y-2 max-h-[50vh] overflow-y-auto">
+            <h2>Keyboard Shortcuts</h2>
+            <div>
               {getHelpText().map((item) => (
-                <div
-                  key={`${item.keys}-${item.label}`}
-                  className="flex justify-between items-center py-2 border-b border-gray-200 last:border-0"
-                >
-                  <span className="text-base text-gray-700">{item.label}</span>
-                  <div className="flex gap-1.5">
-                    {item.keys.split('/').map((key, idx) => (
-                      <kbd
-                        key={idx}
-                        className="font-mono bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-medium border border-gray-300"
-                      >
-                        {key}
-                      </kbd>
+                <div key={`${item.keys}-${item.label}`}>
+                  <span>{item.label}</span>
+                  <div>
+                    {item.keys.split('/').map((key) => (
+                      <kbd key={key}>{key}</kbd>
                     ))}
                   </div>
                 </div>
               ))}
             </div>
-            <div className="mt-4 text-xs text-gray-500 text-center">Click outside to close</div>
+            <div>Click outside to close</div>
           </div>
         </div>
       )}
