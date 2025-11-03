@@ -27,10 +27,7 @@ function GamePage() {
 
   const { musicRef1, musicRef2 } = useMusicPlayer(currentPhase, config, volume, muted)
 
-  const { currentImage, currentImageFilename, imageOpacity } = useImageTransition(
-    currentPhase,
-    config
-  )
+  const { currentImage, imageOpacity } = useImageTransition(currentPhase, config)
 
   useKeyboardControls({
     config,
@@ -46,28 +43,38 @@ function GamePage() {
 
   if (loading || !config || !currentPhase) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-black">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-4xl text-white">LOADING</div>
       </div>
     )
   }
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-black">
+    <div className="relative h-screen w-full overflow-hidden">
+      {/* Background Layer */}
       <GameBackground
         currentImage={currentImage}
         currentPhase={currentPhase}
         imageOpacity={imageOpacity}
       />
 
-      <div className="relative z-10 flex h-full flex-col p-6">
-        <PhaseDisplay currentPhase={currentPhase} currentImageFilename={currentImageFilename} />
+      {/* Content Layer */}
+      <div className="relative z-10 flex h-full flex-col">
+        {/* Phase Display - Centered */}
+        <div className="flex flex-1 items-center justify-center">
+          <PhaseDisplay currentPhase={currentPhase} />
+        </div>
 
-        <ControlBar muted={muted} setMuted={setMuted} setShowHelp={setShowHelp} />
+        {/* Control Bar - Bottom */}
+        <div className="p-6">
+          <ControlBar muted={muted} setMuted={setMuted} setShowHelp={setShowHelp} />
+        </div>
       </div>
 
+      {/* Modals */}
       <HelpModal showHelp={showHelp} config={config} setShowHelp={setShowHelp} />
 
+      {/* Audio */}
       <AudioElements musicRef1={musicRef1} musicRef2={musicRef2} sfxRef={sfxRef} />
     </div>
   )

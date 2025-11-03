@@ -10,45 +10,45 @@
   },
   "phases": [
     {
-      "name": "Opening",
+      "name": "Start",
       "next": 1,
       "images": ["opening.jpg"],
-      "music": ["opening.mp3"]
+      "music": ["start.wav"]
     },
     {
-      "name": "Middlegame",
+      "name": "Whites Turn",
       "next": 2,
       "images": ["middlegame.jpg"],
-      "music": ["middlegame.mp3"]
+      "music": ["whites_turn.wav"]
     },
     {
-      "name": "Endgame",
-      "next": 0,
+      "name": "Blacks Turn",
+      "next": 1,
       "images": ["endgame.jpg"],
-      "music": ["endgame.mp3"]
+      "music": ["blacks_turn.wav"]
     }
   ],
   "victory": {
     "name": "Checkmate",
     "next": 0,
     "images": ["victory.jpg"],
-    "music": ["victory.mp3"]
+    "music": ["victory.wav"]
   },
   "defeat": {
     "name": "Resign",
     "next": 0,
     "images": ["defeat.jpg"],
-    "music": ["defeat.mp3"]
+    "music": ["defeat.wav"]
   },
   "sfx": [
-    { "file": "move.mp3" },
-    { "file": "capture.mp3" },
-    { "file": "check.mp3" },
-    { "file": "castle.mp3" },
-    { "file": "promote.mp3" },
-    { "file": "timer.mp3" },
-    { "file": "draw.mp3" },
-    { "file": "think.mp3" },
-    { "file": "click.mp3" }
+    { "file": "sfx1.ogg" },
+    { "file": "sfx2.ogg" },
+    { "file": "sfx3.ogg" },
+    { "file": "sfx4.ogg" },
+    { "file": "sfx5.ogg" },
+    { "file": "sfx6.ogg" },
+    { "file": "sfx7.ogg" },
+    { "file": "sfx8.ogg" },
+    { "file": "sfx9.ogg" }
   ]
 }

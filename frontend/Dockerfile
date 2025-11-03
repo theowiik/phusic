@@ -26,6 +26,10 @@ RUN echo 'server { \
     location / { \
         try_files $uri $uri/ /index.html; \
     } \
+    \
+    location ~* \.(ogg|mp3|wav)$ { \
+        add_header Access-Control-Allow-Origin "*"; \
+    } \
 }' > /etc/nginx/conf.d/default.conf
 
 # Development image

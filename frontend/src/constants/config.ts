@@ -7,5 +7,10 @@ export const getConfigPath = (game?: string): string => {
 }
 
 export const getAssetPath = (assetsFolder: string, filename: string): string => {
+  // If filename is already a full URL, return it as-is
+  if (filename.startsWith('http://') || filename.startsWith('https://')) {
+    return filename
+  }
+  // Otherwise, construct local path
   return `/assets/${assetsFolder}/${filename}`
 }
