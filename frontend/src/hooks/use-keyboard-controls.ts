@@ -12,7 +12,7 @@ interface UseKeyboardControlsProps {
   muted: boolean
   volume: number
   showHelp: boolean
-  sfxRef: React.RefObject<HTMLAudioElement>
+  sfxRef: React.RefObject<HTMLAudioElement | null>
   setCurrentPhase: (phase: Phase) => void
   setMuted: (muted: boolean) => void
   setShowHelp: (show: boolean) => void

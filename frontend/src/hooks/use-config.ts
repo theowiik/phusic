@@ -13,6 +13,8 @@ export const useConfig = () => {
   const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
+    if (!searchParams) return
+
     const game = searchParams.get('game')
     const configPath = getConfigPath(game || undefined)
 

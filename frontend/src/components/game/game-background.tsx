@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { AUDIO_CONSTANTS } from '../../constants/audio'
 import type { Phase } from '../../types'
 
@@ -15,14 +16,17 @@ export const GameBackground = ({
   if (!currentImage) return null
 
   return (
-    <img
-      src={currentImage}
-      alt={currentPhase.name}
-      className="absolute inset-0 h-full w-full object-cover"
-      style={{
-        opacity: imageOpacity,
-        transition: `opacity ${AUDIO_CONSTANTS.IMAGE_TRANSITION_DURATION}ms`,
-      }}
-    />
+    <div className="absolute inset-0 h-full w-full">
+      <Image
+        src={currentImage}
+        alt={currentPhase.name}
+        fill
+        className="object-cover"
+        style={{
+          opacity: imageOpacity,
+          transition: `opacity ${AUDIO_CONSTANTS.IMAGE_TRANSITION_DURATION}ms`,
+        }}
+      />
+    </div>
   )
 }

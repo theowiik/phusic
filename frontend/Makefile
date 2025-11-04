@@ -42,4 +42,4 @@ docker-down:
 	docker compose down
 
 docker-ci:
-	docker compose run --build --rm ci
+	docker compose build ci && docker compose run --rm ci

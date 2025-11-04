@@ -23,6 +23,8 @@ export interface Config {
   keybinds: Keybinds
   phases: Phase[]
   sfx?: SFX[]
+  victory?: Phase
+  defeat?: Phase
 }
 
 export interface HelpItem {

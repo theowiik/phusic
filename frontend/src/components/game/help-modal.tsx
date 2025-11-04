@@ -52,6 +52,9 @@ export const HelpModal = ({ showHelp, config, setShowHelp }: HelpModalProps) => 
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="help-modal-title"
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
@@ -66,7 +69,9 @@ export const HelpModal = ({ showHelp, config, setShowHelp }: HelpModalProps) => 
     >
       <div className="w-full max-w-2xl bg-zinc-900 p-8">
         <div className="mb-6 flex justify-between">
-          <h2 className="text-3xl text-white">KEYBOARD SHORTCUTS</h2>
+          <h2 id="help-modal-title" className="text-3xl text-white">
+            KEYBOARD SHORTCUTS
+          </h2>
           <button
             type="button"
             onClick={() => setShowHelp(false)}

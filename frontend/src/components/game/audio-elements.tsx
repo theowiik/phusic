@@ -1,9 +1,9 @@
 'use client'
 
 interface AudioElementsProps {
-  musicRef1: React.RefObject<HTMLAudioElement>
-  musicRef2: React.RefObject<HTMLAudioElement>
-  sfxRef: React.RefObject<HTMLAudioElement>
+  musicRef1: React.RefObject<HTMLAudioElement | null>
+  musicRef2: React.RefObject<HTMLAudioElement | null>
+  sfxRef: React.RefObject<HTMLAudioElement | null>
 }
 
 export const AudioElements = ({ musicRef1, musicRef2, sfxRef }: AudioElementsProps) => {

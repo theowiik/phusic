@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { getAssetPath } from '../../constants/config'
 
 interface ImagePreviewProps {
@@ -13,9 +14,11 @@ export const ImagePreview = ({ imageName, assetsFolder }: ImagePreviewProps) => 
   const imagePath = getAssetPath(assetsFolder, imageName)
 
   return (
-    <img
+    <Image
       src={imagePath}
       alt={imageName}
+      width={128}
+      height={128}
       className="h-32 w-32 rounded border border-gray-300 object-cover"
       onError={(e) => {
         e.currentTarget.style.display = 'none'
