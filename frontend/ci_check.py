@@ -35,6 +35,7 @@ checks: list[tuple[str, str | Callable[[], bool]]] = [
     ("Biome check", "npm run check"),
     ("TypeScript", "npx tsc --noEmit"),
     ("Test", "npm run test"),
+    ("Build", "npm run build"),
     ("File naming", check_file_naming)
 ]
 
