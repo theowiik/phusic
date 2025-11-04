@@ -36,6 +36,6 @@
     }
   },
   "files": {
-    "includes": ["**", "!!node_modules", "!!dist", "!!build", "!!.vite"]
+    "includes": ["**", "!!node_modules", "!!dist", "!!build", "!!.vite", "!!.next", "!!out"]
   }
 }

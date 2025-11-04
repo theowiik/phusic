@@ -11,7 +11,7 @@ def check_file_naming() -> bool:
     error = False
 
     for root, dirs, files in os.walk("."):
-        dirs[:] = [d for d in dirs if d not in ["node_modules", ".git", "dist"]]
+        dirs[:] = [d for d in dirs if d not in ["node_modules", ".git", "dist", ".next", "out"]]
         
         for file in files:
             if any(file.endswith(f".{ext}") for ext in extensions):
