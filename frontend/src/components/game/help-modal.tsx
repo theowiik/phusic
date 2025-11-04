@@ -1,3 +1,5 @@
+'use client'
+
 import type { Config, HelpItem } from '../../types'
 import { formatKeys } from '../../utils/keybinds'
 

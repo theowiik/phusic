@@ -13,7 +13,7 @@ help:
 	@echo ""
 	@echo "Docker Targets:"
 	@echo "  docker-prod - Run production container (port 8080)"
-	@echo "  docker-dev  - Run development container (port 5173)"
+	@echo "  docker-dev  - Run development container (port 3000)"
 	@echo "  docker-down - Stop all containers"
 	@echo "  docker-ci   - Run CI checks in Docker"
 

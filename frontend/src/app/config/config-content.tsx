@@ -1,3 +1,7 @@
+'use client'
+
+import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { GeneralTab } from '../../components/config/general-tab'
 import { KeybindsTab } from '../../components/config/keybinds-tab'
@@ -20,7 +24,8 @@ const DEFAULT_CONFIG: Config = {
   sfx: [],
 }
 
-function ConfigBuilderPage() {
+export function ConfigContent() {
+  const searchParams = useSearchParams()
   const [initialConfig, setInitialConfig] = useState<Config>(DEFAULT_CONFIG)
   const [loading, setLoading] = useState<boolean>(true)
   const [activeTab, setActiveTab] = useState<string>('general')
@@ -40,8 +45,7 @@ function ConfigBuilderPage() {
 
   // Load config on mount
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const game = params.get('game')
+    const game = searchParams.get('game')
     const configPath = getConfigPath(game || DEFAULT_CONFIG_GAME)
 
     loadConfig(configPath)
@@ -54,7 +58,7 @@ function ConfigBuilderPage() {
         console.error('Failed to load config:', err)
         setLoading(false)
       })
-  }, [setConfig])
+  }, [searchParams, setConfig])
 
   if (loading) {
     return (
@@ -90,12 +94,12 @@ function ConfigBuilderPage() {
               >
                 {saving ? 'Saving...' : 'Download Config'}
               </button>
-              <a
+              <Link
                 href="/"
                 className="rounded bg-gray-600 px-4 py-2 font-medium text-white transition hover:bg-gray-700"
               >
                 Back to Game
-              </a>
+              </Link>
             </div>
           </div>
           {saveMessage && (
@@ -163,5 +167,3 @@ function ConfigBuilderPage() {
     </div>
   )
 }
-
-export default ConfigBuilderPage

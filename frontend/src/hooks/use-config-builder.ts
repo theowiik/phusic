@@ -1,3 +1,5 @@
+'use client'
+
 import { useCallback, useState } from 'react'
 import type { Config } from '../types'
 import { downloadJSON, updateNestedValue } from '../utils/config'

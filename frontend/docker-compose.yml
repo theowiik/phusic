@@ -7,7 +7,7 @@ services:
       target: prod
     image: frontend:prod
     ports:
-      - "8080:80"
+      - "8080:3000"
     restart: unless-stopped
 
   dev:
@@ -16,10 +16,11 @@ services:
       target: dev
     image: frontend:dev
     ports:
-      - "5173:5173"
+      - "3000:3000"
     volumes:
       - .:/app
       - /app/node_modules
+      - /app/.next
     environment:
       - NODE_ENV=development
     restart: unless-stopped

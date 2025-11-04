@@ -1,17 +1,19 @@
-import { useRef, useState } from 'react'
-import { AudioElements } from '../../components/game/audio-elements'
-import { ControlBar } from '../../components/game/control-bar'
-import { GameBackground } from '../../components/game/game-background'
-import { HelpModal } from '../../components/game/help-modal'
-import { PhaseDisplay } from '../../components/game/phase-display'
-import { DEFAULT_VOLUME } from '../../constants/audio'
-import { useConfig } from '../../hooks/use-config'
-import { useImageTransition } from '../../hooks/use-image-transition'
-import { useKeyboardControls } from '../../hooks/use-keyboard-controls'
-import { useMusicPlayer } from '../../hooks/use-music-player'
-import type { Phase } from '../../types'
+'use client'
 
-function GamePage() {
+import { useRef, useState } from 'react'
+import { AudioElements } from '../components/game/audio-elements'
+import { ControlBar } from '../components/game/control-bar'
+import { GameBackground } from '../components/game/game-background'
+import { HelpModal } from '../components/game/help-modal'
+import { PhaseDisplay } from '../components/game/phase-display'
+import { DEFAULT_VOLUME } from '../constants/audio'
+import { useConfig } from '../hooks/use-config'
+import { useImageTransition } from '../hooks/use-image-transition'
+import { useKeyboardControls } from '../hooks/use-keyboard-controls'
+import { useMusicPlayer } from '../hooks/use-music-player'
+import type { Phase } from '../types'
+
+export default function GamePage() {
   const { config, loading } = useConfig()
   const [currentPhase, setCurrentPhase] = useState<Phase | null>(config?.phases[0] || null)
   const [volume] = useState<number>(DEFAULT_VOLUME)
@@ -79,5 +81,3 @@ function GamePage() {
     </div>
   )
 }
-
-export default GamePage

@@ -1,3 +1,5 @@
+'use client'
+
 import type { Config } from '../../types'
 
 interface SFXTabProps {
@@ -37,7 +39,10 @@ export const SFXTab = ({ config, updateArrayItem, addArrayItem, removeArrayItem 
               />
             </div>
             <div>
-              <label htmlFor={`sfx-${idx}-keybind`} className="mb-2 block font-medium text-gray-700">
+              <label
+                htmlFor={`sfx-${idx}-keybind`}
+                className="mb-2 block font-medium text-gray-700"
+              >
                 Keybind
               </label>
               <div className="space-y-2">

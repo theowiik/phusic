@@ -1,3 +1,5 @@
+'use client'
+
 interface AudioElementsProps {
   musicRef1: React.RefObject<HTMLAudioElement>
   musicRef2: React.RefObject<HTMLAudioElement>

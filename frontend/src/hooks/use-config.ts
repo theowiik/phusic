@@ -1,16 +1,19 @@
+'use client'
+
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { getConfigPath } from '../constants/config'
 import { loadConfig } from '../services/config-service'
 import type { Config } from '../types'
 
 export const useConfig = () => {
+  const searchParams = useSearchParams()
   const [config, setConfig] = useState<Config | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const game = params.get('game')
+    const game = searchParams.get('game')
     const configPath = getConfigPath(game || undefined)
 
     loadConfig(configPath)
@@ -23,7 +26,7 @@ export const useConfig = () => {
         setError(err)
         setLoading(false)
       })
-  }, [])
+  }, [searchParams])
 
   return { config, loading, error }
 }

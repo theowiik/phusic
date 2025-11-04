@@ -1,3 +1,5 @@
+'use client'
+
 import type { Config } from '../../types'
 import { ImagePreview } from './image-preview'
 

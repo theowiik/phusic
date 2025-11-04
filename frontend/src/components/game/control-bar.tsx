@@ -1,3 +1,7 @@
+'use client'
+
+import Link from 'next/link'
+
 interface ControlBarProps {
   muted: boolean
   setMuted: (muted: boolean) => void
@@ -28,12 +32,12 @@ export const ControlBar = ({ muted, setMuted, setShowHelp }: ControlBarProps) =>
         Shortcuts
       </button>
 
-      <a
+      <Link
         href="/config"
         className="flex-1 bg-white py-3 text-center font-medium text-black text-sm hover:bg-white/90"
       >
         Config
-      </a>
+      </Link>
     </div>
   )
 }

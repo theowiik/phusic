@@ -1,3 +1,5 @@
+'use client'
+
 import { getAssetPath } from '../../constants/config'
 
 interface ImagePreviewProps {

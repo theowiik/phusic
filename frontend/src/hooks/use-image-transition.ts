@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import { AUDIO_CONSTANTS } from '../constants/audio'
 import { getAssetPath } from '../constants/config'

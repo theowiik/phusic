@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect } from 'react'
 import { getAssetPath } from '../constants/config'
 import type { Config, Phase } from '../types'
