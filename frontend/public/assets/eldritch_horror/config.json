@@ -1,0 +1,65 @@
+{
+  "assets": "eldritch_horror",
+  "keybinds": {
+    "nextPhase": [" ", "Enter"],
+    "mute": ["m", "M"],
+    "help": ["h", "H"]
+  },
+  "phases": [
+    {
+      "name": "Opening",
+      "next": 1,
+      "images": [
+        "https://example.com/eldritch/opening1.jpg",
+        "https://example.com/eldritch/opening2.jpg"
+      ],
+      "music": ["https://example.com/eldritch/opening_music.mp3"]
+    },
+    {
+      "name": "Investigation",
+      "next": 2,
+      "images": [
+        "https://example.com/eldritch/investigation1.jpg",
+        "https://example.com/eldritch/investigation2.jpg"
+      ],
+      "music": ["https://example.com/eldritch/investigation_music.mp3"]
+    },
+    {
+      "name": "Rising Tension",
+      "next": 3,
+      "images": ["https://example.com/eldritch/tension1.jpg"],
+      "music": ["https://example.com/eldritch/tension_music.mp3"]
+    },
+    {
+      "name": "Climax",
+      "next": 0,
+      "images": ["https://example.com/eldritch/climax1.jpg"],
+      "music": ["https://example.com/eldritch/climax_music.mp3"]
+    },
+    {
+      "name": "Victory",
+      "next": 0,
+      "images": ["https://example.com/eldritch/victory.jpg"],
+      "music": ["https://example.com/eldritch/victory_music.mp3"],
+      "keybind": ["v", "V"]
+    },
+    {
+      "name": "Defeat",
+      "next": 0,
+      "images": ["https://example.com/eldritch/defeat.jpg"],
+      "music": ["https://example.com/eldritch/defeat_music.mp3"],
+      "keybind": ["d", "D"]
+    }
+  ],
+  "sfx": [
+    { "file": "https://example.com/eldritch/sfx1.mp3", "keybind": ["1"] },
+    { "file": "https://example.com/eldritch/sfx2.mp3", "keybind": ["2"] },
+    { "file": "https://example.com/eldritch/sfx3.mp3", "keybind": ["3"] },
+    { "file": "https://example.com/eldritch/sfx4.mp3", "keybind": ["4"] },
+    { "file": "https://example.com/eldritch/sfx5.mp3", "keybind": ["5"] },
+    { "file": "https://example.com/eldritch/sfx6.mp3", "keybind": ["6"] },
+    { "file": "https://example.com/eldritch/sfx7.mp3", "keybind": ["7"] },
+    { "file": "https://example.com/eldritch/sfx8.mp3", "keybind": ["8"] },
+    { "file": "https://example.com/eldritch/sfx9.mp3", "keybind": ["9"] }
+  ]
+}

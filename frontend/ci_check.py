@@ -11,7 +11,7 @@ def check_file_naming() -> bool:
     error = False
 
     for root, dirs, files in os.walk("."):
-        dirs[:] = [d for d in dirs if d not in ["node_modules", ".git"]]
+        dirs[:] = [d for d in dirs if d not in ["node_modules", ".git", "dist", ".next", "out"]]
         
         for file in files:
             if any(file.endswith(f".{ext}") for ext in extensions):
@@ -32,8 +32,8 @@ def check_file_naming() -> bool:
 
 
 checks: list[tuple[str, str | Callable[[], bool]]] = [
-    ("Format", "npm run format:check"),
-    ("Lint", "npm run lint"),
+    ("Biome check", "npm run check"),
+    ("TypeScript", "npx tsc --noEmit"),
     ("Test", "npm run test"),
     ("File naming", check_file_naming)
 ]

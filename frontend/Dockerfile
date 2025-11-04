@@ -1,5 +1,5 @@
 # Base stage with Node.js and Python
-FROM node:20-alpine AS base
+FROM node:24-alpine AS base
 RUN apk add --no-cache python3 py3-pip
 WORKDIR /app
 
@@ -15,25 +15,22 @@ COPY . .
 RUN npm run build
 
 # Production image
-FROM nginx:alpine AS prod
-COPY --from=prod-build /app/dist /usr/share/nginx/html
-RUN echo 'server { \
-    listen 80; \
-    server_name localhost; \
-    root /usr/share/nginx/html; \
-    index index.html; \
-    \
-    location / { \
-        try_files $uri $uri/ /index.html; \
-    } \
-}' > /etc/nginx/conf.d/default.conf
+FROM node:24-alpine AS prod
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=prod-build /app/.next/standalone ./
+COPY --from=prod-build /app/.next/static ./.next/static
+COPY --from=prod-build /app/public ./public
+EXPOSE 3000
+CMD ["node", "server.js"]
 
 # Development image
 FROM base AS dev
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-EXPOSE 5173
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+EXPOSE 3000
+ENV NODE_ENV=development
+CMD ["npm", "run", "dev"]
 
 # CI check image
 FROM base AS ci
