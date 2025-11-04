@@ -3,19 +3,18 @@ export interface Phase {
   next: number
   images: string[]
   music: string[]
+  keybind?: string[]
 }
 
 export interface Keybinds {
   nextPhase: string[]
-  victory: string[]
-  defeat: string[]
-  sfx: string[]
   mute: string[]
   help: string[]
 }
 
 export interface SFX {
   file: string
+  keybind: string[]
 }
 
 export interface Config {
@@ -23,8 +22,6 @@ export interface Config {
   mockImage?: string
   keybinds: Keybinds
   phases: Phase[]
-  victory: Phase
-  defeat: Phase
   sfx?: SFX[]
 }
 

@@ -16,15 +16,25 @@ const getHelpText = (config: Config): HelpItem[] => {
   if (keybinds.nextPhase) {
     help.push({ label: 'Advance to next phase', keys: formatKeys(keybinds.nextPhase) })
   }
-  if (keybinds.victory) {
-    help.push({ label: 'Jump to victory phase', keys: formatKeys(keybinds.victory) })
+
+  // Phases with keybinds
+  if (config.phases) {
+    config.phases.forEach((phase) => {
+      if (phase.keybind && phase.keybind.length > 0) {
+        help.push({ label: `Jump to ${phase.name}`, keys: formatKeys(phase.keybind) })
+      }
+    })
   }
-  if (keybinds.defeat) {
-    help.push({ label: 'Jump to defeat phase', keys: formatKeys(keybinds.defeat) })
+
+  // SFX with keybinds
+  if (config.sfx) {
+    config.sfx.forEach((sfx, index) => {
+      if (sfx.keybind && sfx.keybind.length > 0) {
+        help.push({ label: `SFX ${index + 1}`, keys: formatKeys(sfx.keybind) })
+      }
+    })
   }
-  if (keybinds.sfx) {
-    help.push({ label: 'Play sound effects', keys: formatKeys(keybinds.sfx) })
-  }
+
   if (keybinds.mute) {
     help.push({ label: 'Toggle mute', keys: formatKeys(keybinds.mute) })
   }

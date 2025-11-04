@@ -74,6 +74,57 @@ export const PhasesTab = ({
             </div>
             <div>
               <label
+                htmlFor={`phase-${phaseIdx}-keybind`}
+                className="mb-2 block font-medium text-gray-700"
+              >
+                Keybind (optional)
+              </label>
+              <div className="space-y-2">
+                {(phase.keybind || []).map((kb, kbIdx) => (
+                  <div key={`phase-${phaseIdx}-kb-${kbIdx}-${kb}`} className="flex gap-2">
+                    <input
+                      type="text"
+                      value={kb}
+                      onChange={(e) => {
+                        const newKeybind = [...(phase.keybind || [])]
+                        newKeybind[kbIdx] = e.target.value
+                        updateArrayItem('phases', phaseIdx, {
+                          ...phase,
+                          keybind: newKeybind,
+                        })
+                      }}
+                      placeholder="key"
+                      className="flex-1 rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newKeybind = (phase.keybind || []).filter((_, i) => i !== kbIdx)
+                        updateArrayItem('phases', phaseIdx, {
+                          ...phase,
+                          keybind: newKeybind.length > 0 ? newKeybind : undefined,
+                        })
+                      }}
+                      className="rounded bg-red-600 px-3 py-2 font-bold text-white transition hover:bg-red-700"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const newKeybind = [...(phase.keybind || []), '']
+                    updateArrayItem('phases', phaseIdx, { ...phase, keybind: newKeybind })
+                  }}
+                  className="rounded bg-green-600 px-4 py-2 font-medium text-white transition hover:bg-green-700"
+                >
+                  + Add Keybind
+                </button>
+              </div>
+            </div>
+            <div>
+              <label
                 htmlFor={`phase-${phaseIdx}-images`}
                 className="mb-2 block font-medium text-gray-700"
               >

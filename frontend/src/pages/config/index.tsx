@@ -3,7 +3,6 @@ import { GeneralTab } from '../../components/config/general-tab'
 import { KeybindsTab } from '../../components/config/keybinds-tab'
 import { PhasesTab } from '../../components/config/phases-tab'
 import { SFXTab } from '../../components/config/sfx-tab'
-import { VictoryDefeatTab } from '../../components/config/victory-defeat-tab'
 import { DEFAULT_CONFIG_GAME, getConfigPath } from '../../constants/config'
 import { useConfigBuilder } from '../../hooks/use-config-builder'
 import { loadConfig } from '../../services/config-service'
@@ -14,15 +13,10 @@ const DEFAULT_CONFIG: Config = {
   mockImage: '',
   keybinds: {
     nextPhase: [' ', 'Enter'],
-    victory: ['v', 'V'],
-    defeat: ['d', 'D'],
-    sfx: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
     mute: ['m', 'M'],
     help: ['h', 'H'],
   },
   phases: [],
-  victory: { name: 'Victory', next: 0, images: [], music: [] },
-  defeat: { name: 'Defeat', next: 0, images: [], music: [] },
   sfx: [],
 }
 
@@ -119,7 +113,6 @@ function ConfigBuilderPage() {
                 { id: 'general', label: 'General' },
                 { id: 'keybinds', label: 'Keybinds' },
                 { id: 'phases', label: 'Phases' },
-                { id: 'victory', label: 'Victory/Defeat' },
                 { id: 'sfx', label: 'Sound Effects' },
               ].map((tab) => (
                 <button
@@ -155,9 +148,6 @@ function ConfigBuilderPage() {
                 addArrayItem={addArrayItem}
                 updateConfig={updateConfig}
               />
-            )}
-            {activeTab === 'victory' && (
-              <VictoryDefeatTab config={config} updateConfig={updateConfig} />
             )}
             {activeTab === 'sfx' && (
               <SFXTab

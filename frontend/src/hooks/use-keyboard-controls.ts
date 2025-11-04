@@ -50,36 +50,29 @@ export const useKeyboardControls = ({
         return
       }
 
-      // Victory
-      if (matchesKeybind(e.key, keybinds.victory)) {
-        e.preventDefault()
-        if (config.victory) {
-          setCurrentPhase(config.victory)
+      // Phase keybinds - check all phases for keybinds
+      for (const phase of config.phases) {
+        if (phase.keybind && matchesKeybind(e.key, phase.keybind)) {
+          e.preventDefault()
+          setCurrentPhase(phase)
+          return
         }
-        return
       }
 
-      // Defeat
-      if (matchesKeybind(e.key, keybinds.defeat)) {
-        e.preventDefault()
-        if (config.defeat) {
-          setCurrentPhase(config.defeat)
+      // SFX keybinds - check all SFX items for their keybinds
+      if (config.sfx) {
+        for (const sfx of config.sfx) {
+          if (sfx.keybind && matchesKeybind(e.key, sfx.keybind)) {
+            e.preventDefault()
+            if (sfxRef.current) {
+              const sfxPath = getAssetPath(config.assets, sfx.file)
+              sfxRef.current.src = sfxPath
+              sfxRef.current.volume = volume * (muted ? 0 : 1)
+              tryPlayAudio(sfxRef.current)
+            }
+            return
+          }
         }
-        return
-      }
-
-      // SFX (1-9)
-      if (matchesKeybind(e.key, keybinds.sfx)) {
-        e.preventDefault()
-        const sfxIndex = Number.parseInt(e.key, 10) - 1
-        const sfx = config.sfx?.[sfxIndex]
-        if (sfx && sfxRef.current) {
-          const sfxPath = getAssetPath(config.assets, sfx.file)
-          sfxRef.current.src = sfxPath
-          sfxRef.current.volume = volume * (muted ? 0 : 1)
-          tryPlayAudio(sfxRef.current)
-        }
-        return
       }
 
       // Mute
