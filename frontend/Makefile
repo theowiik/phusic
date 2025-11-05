@@ -1,15 +1,16 @@
-OPENING.PHONY: help dev format lint test ci docker-prod docker-dev docker-down docker-ci
+OPENING.PHONY: help dev format lint test ci docker-prod docker-dev docker-down docker-ci fix-permissions
 
 help:
 	@echo "Usage: make <target>"
 	@echo ""
 	@echo "Targets:"
-	@echo "  help        - Show this help message"
-	@echo "  dev         - Run the development server"
-	@echo "  format      - Format the code"
-	@echo "  lint        - Lint the code"
-	@echo "  test        - Run the tests"
-	@echo "  ci          - Run the CI checks"
+	@echo "  help            - Show this help message"
+	@echo "  dev             - Run the development server"
+	@echo "  format          - Format the code"
+	@echo "  lint            - Lint the code"
+	@echo "  test            - Run the tests"
+	@echo "  ci              - Run the CI checks"
+	@echo "  fix-permissions - Fix file permissions after Docker builds (requires sudo)"
 	@echo ""
 	@echo "Docker Targets:"
 	@echo "  docker-prod - Run production container (port 8080)"
@@ -43,3 +44,8 @@ docker-down:
 
 docker-ci:
 	docker compose build ci && docker compose run --rm ci
+
+fix-permissions:
+	@echo "Removing .next directory (will be regenerated automatically)..."
+	@sudo rm -rf .next
+	@echo "✓ Cleanup complete! Run 'make dev' to rebuild."

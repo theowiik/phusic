@@ -10,32 +10,32 @@
       "name": "Start",
       "next": 1,
       "images": ["opening.jpg"],
-      "music": ["start.wav"]
+      "music": ["start.mp3"]
     },
     {
       "name": "Whites Turn",
       "next": 2,
       "images": ["middlegame.jpg"],
-      "music": ["whites_turn.wav"]
+      "music": ["whites_turn.mp3"]
     },
     {
       "name": "Blacks Turn",
       "next": 1,
       "images": ["endgame.jpg"],
-      "music": ["blacks_turn.wav"]
+      "music": ["blacks_turn.mp3"]
     },
     {
       "name": "Checkmate",
       "next": 0,
       "images": ["victory.jpg"],
-      "music": ["victory.wav"],
+      "music": ["victory.mp3"],
       "keybind": ["v", "V"]
     },
     {
       "name": "Resign",
       "next": 0,
       "images": ["defeat.jpg"],
-      "music": ["defeat.wav"],
+      "music": ["defeat.mp3"],
       "keybind": ["d", "D"]
     }
   ],
