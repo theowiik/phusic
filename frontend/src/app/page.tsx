@@ -1,16 +1,5 @@
-import { Suspense } from 'react'
-import { GameContent } from './game-content'
+import { GamePicker } from '../components/game-picker'
 
-export default function GamePage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center">
-          <div className="text-4xl text-white">LOADING</div>
-        </div>
-      }
-    >
-      <GameContent />
-    </Suspense>
-  )
+export default function HomePage() {
+  return <GamePicker />
 }

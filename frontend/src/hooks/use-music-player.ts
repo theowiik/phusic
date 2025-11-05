@@ -16,6 +16,7 @@ export const useMusicPlayer = (
   const musicRef2 = useRef<HTMLAudioElement>(null)
   const currentMusicRef = useRef<number>(1)
   const fadeIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const playbackAttemptedRef = useRef<Set<HTMLAudioElement>>(new Set())
 
   // Play music for current phase with crossfade
   useEffect(() => {
@@ -32,11 +33,37 @@ export const useMusicPlayer = (
     const nextRef = currentMusicRef.current === 1 ? musicRef2 : musicRef1
 
     // Start new track in the inactive ref
-    if (nextRef.current) {
-      nextRef.current.src = musicPath
-      nextRef.current.loop = true
-      nextRef.current.volume = 0
-      tryPlayAudio(nextRef.current)
+    // Note: refs should be available since AudioElements renders in the same component tree
+    if (!nextRef.current) {
+      // Refs not ready yet, skip this render
+      return
+    }
+    
+    let handleCanPlay: (() => void) | null = null
+    nextRef.current.src = musicPath
+    nextRef.current.loop = true
+    nextRef.current.volume = 0
+    
+    // Wait for audio to be ready before trying to play
+    handleCanPlay = () => {
+      if (nextRef.current && !muted) {
+        playbackAttemptedRef.current.add(nextRef.current)
+        tryPlayAudio(nextRef.current)
+        nextRef.current.removeEventListener('canplay', handleCanPlay!)
+      }
+    }
+    
+    // If already loaded, try playing immediately, otherwise wait for canplay
+    if (nextRef.current.readyState >= 2) {
+      // HAVE_CURRENT_DATA or higher - try playing immediately if not muted
+      if (!muted) {
+        playbackAttemptedRef.current.add(nextRef.current)
+        tryPlayAudio(nextRef.current)
+      }
+    } else {
+      nextRef.current.addEventListener('canplay', handleCanPlay)
+      // Also try loading the audio explicitly
+      nextRef.current.load()
     }
 
     // Fade out current, fade in new
@@ -59,6 +86,11 @@ export const useMusicPlayer = (
       }
 
       if (nextRef.current) {
+        // Ensure audio is playing if it should be (handles autoplay block)
+        if (!muted && nextRef.current.paused && nextRef.current.src && nextRef.current.readyState >= 2) {
+          playbackAttemptedRef.current.add(nextRef.current)
+          tryPlayAudio(nextRef.current)
+        }
         nextRef.current.volume = Math.min(
           volume * (muted ? 0 : 1),
           progress * volume * (muted ? 0 : 1)
@@ -82,14 +114,56 @@ export const useMusicPlayer = (
       if (fadeIntervalRef.current) {
         clearInterval(fadeIntervalRef.current)
       }
+      // Clean up event listeners
+      if (nextRef.current && handleCanPlay) {
+        nextRef.current.removeEventListener('canplay', handleCanPlay)
+      }
     }
   }, [currentPhase, config, volume, muted])
 
   // Update audio volumes when muted/volume changes
   useEffect(() => {
     const activeRef = currentMusicRef.current === 1 ? musicRef1 : musicRef2
+    const nextRef = currentMusicRef.current === 1 ? musicRef2 : musicRef1
+    
+    // Update volume for active ref
     if (activeRef.current) {
       activeRef.current.volume = volume * (muted ? 0 : 1)
+      // If unmuting and audio should be playing but is paused, try to play it
+      // This handles the case where autoplay was blocked on initial load
+      if (!muted && activeRef.current.paused && activeRef.current.src) {
+        // Wait a bit for readyState to be ready if needed
+        const tryStart = () => {
+          if (activeRef.current && activeRef.current.readyState >= 2 && activeRef.current.paused) {
+            playbackAttemptedRef.current.add(activeRef.current)
+            tryPlayAudio(activeRef.current)
+          }
+        }
+        if (activeRef.current.readyState >= 2) {
+          tryStart()
+        } else {
+          activeRef.current.addEventListener('canplay', tryStart, { once: true })
+        }
+      }
+    }
+    
+    // Also check nextRef in case it has audio that should be playing
+    if (nextRef.current) {
+      nextRef.current.volume = volume * (muted ? 0 : 1)
+      // If unmuting and nextRef has audio that should be playing but is paused, try to play it
+      if (!muted && nextRef.current.paused && nextRef.current.src) {
+        const tryStart = () => {
+          if (nextRef.current && nextRef.current.readyState >= 2 && nextRef.current.paused) {
+            playbackAttemptedRef.current.add(nextRef.current)
+            tryPlayAudio(nextRef.current)
+          }
+        }
+        if (nextRef.current.readyState >= 2) {
+          tryStart()
+        } else {
+          nextRef.current.addEventListener('canplay', tryStart, { once: true })
+        }
+      }
     }
   }, [volume, muted])
 

@@ -13,8 +13,12 @@ import { useKeyboardControls } from '../hooks/use-keyboard-controls'
 import { useMusicPlayer } from '../hooks/use-music-player'
 import type { Phase } from '../types'
 
-export function GameContent() {
-  const { config, loading } = useConfig()
+interface GameContentProps {
+  gameName?: string
+}
+
+export function GameContent({ gameName }: GameContentProps = {}) {
+  const { config, loading } = useConfig(gameName)
   const [currentPhase, setCurrentPhase] = useState<Phase | null>(config?.phases[0] || null)
   const [volume] = useState<number>(DEFAULT_VOLUME)
   const [muted, setMuted] = useState<boolean>(false)
