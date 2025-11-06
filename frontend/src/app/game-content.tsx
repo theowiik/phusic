@@ -21,8 +21,22 @@ export function GameContent({ gameName }: GameContentProps = {}) {
   const { config, loading } = useConfig(gameName)
   const [currentPhase, setCurrentPhase] = useState<Phase | null>(null)
   const [volume] = useState<number>(DEFAULT_VOLUME)
-  const [muted, setMuted] = useState<boolean>(false)
+  // Load muted state from localStorage, default to false
+  const [muted, setMuted] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('phusic-muted')
+      return saved === 'true'
+    }
+    return false
+  })
   const [showHelp, setShowHelp] = useState<boolean>(false)
+
+  // Save muted state to localStorage whenever it changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('phusic-muted', String(muted))
+    }
+  }, [muted])
 
   const sfxRef = useRef<HTMLAudioElement>(null)
 
