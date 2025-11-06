@@ -24,7 +24,10 @@ export const KeybindsTab = ({
         const keybindValue = value as string[]
         return (
           <div key={key}>
-            <label htmlFor={`keybinds-${key}`} className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70">
+            <label
+              htmlFor={`keybinds-${key}`}
+              className="mb-2 block font-light text-[#e5e5e5] text-sm opacity-70"
+            >
               {key.replace(/([A-Z])/g, ' $1').trim()}
             </label>
             <div className="space-y-2">
@@ -54,7 +57,7 @@ export const KeybindsTab = ({
               <button
                 type="button"
                 onClick={() => addArrayItem(`keybinds.${key}`, '')}
-                className="btn-clear flex items-center gap-1 text-sm font-light"
+                className="btn-clear flex items-center gap-1 font-light text-sm"
               >
                 <Plus size={16} />
                 Add
@@ -68,7 +71,7 @@ export const KeybindsTab = ({
           <button
             type="button"
             onClick={() => updateConfig('keybinds.nextPhase', [''])}
-            className="btn-clear flex items-center gap-1 text-sm font-light"
+            className="btn-clear flex items-center gap-1 font-light text-sm"
           >
             <Plus size={16} />
             Add Next Phase Keybind

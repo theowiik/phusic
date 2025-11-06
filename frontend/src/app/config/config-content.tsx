@@ -1,9 +1,9 @@
 'use client'
 
+import { ArrowLeft, Copy, Download } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { Copy, Download, ArrowLeft } from 'lucide-react'
 import { GeneralTab } from '../../components/config/general-tab'
 import { KeybindsTab } from '../../components/config/keybinds-tab'
 import { PhasesTab } from '../../components/config/phases-tab'
@@ -75,9 +75,7 @@ export function ConfigContent() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#0a0a0a]">
-        <div className="text-[#e5e5e5] opacity-50 font-light text-sm">
-          Loading config...
-        </div>
+        <div className="font-light text-[#e5e5e5] text-sm opacity-50">Loading config...</div>
       </div>
     )
   }
@@ -89,14 +87,16 @@ export function ConfigContent() {
         <div className="card-clear mb-4 p-6">
           <div className="mb-4 flex items-start justify-between">
             <div>
-              <h1 className="mb-1 font-light text-lg text-[#e5e5e5] opacity-90">Config Builder</h1>
-              <p className="text-[#e5e5e5] text-sm opacity-60 font-light">Edit your game configuration</p>
+              <h1 className="mb-1 font-light text-[#e5e5e5] text-lg opacity-90">Config Builder</h1>
+              <p className="font-light text-[#e5e5e5] text-sm opacity-60">
+                Edit your game configuration
+              </p>
             </div>
             <div className="flex gap-2">
               <button
                 type="button"
                 onClick={handleCopyJSON}
-                className="btn-clear flex items-center gap-2 text-sm font-light"
+                className="btn-clear flex items-center gap-2 font-light text-sm"
               >
                 <Copy size={16} />
                 Copy JSON
@@ -105,22 +105,19 @@ export function ConfigContent() {
                 type="button"
                 onClick={handleSave}
                 disabled={saving}
-                className="btn-clear flex items-center gap-2 text-sm font-light disabled:opacity-30 disabled:cursor-not-allowed"
+                className="btn-clear flex items-center gap-2 font-light text-sm disabled:cursor-not-allowed disabled:opacity-30"
               >
                 <Download size={16} />
                 {saving ? 'Saving...' : 'Download'}
               </button>
-              <Link
-                href="/"
-                className="btn-clear flex items-center gap-2 text-sm font-light"
-              >
+              <Link href="/" className="btn-clear flex items-center gap-2 font-light text-sm">
                 <ArrowLeft size={16} />
                 Back
               </Link>
             </div>
           </div>
           {saveMessage && (
-            <div className="card-clear px-4 py-3 text-[#e5e5e5] text-sm opacity-70 font-light">
+            <div className="card-clear px-4 py-3 font-light text-[#e5e5e5] text-sm opacity-70">
               {saveMessage}
             </div>
           )}
@@ -128,7 +125,7 @@ export function ConfigContent() {
 
         {/* Tabs */}
         <div className="card-clear">
-          <div className="border-b border-[rgba(255,255,255,0.1)]">
+          <div className="border-[rgba(255,255,255,0.1)] border-b">
             <nav className="flex gap-2 p-3">
               {[
                 { id: 'general', label: 'General' },

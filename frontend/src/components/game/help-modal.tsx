@@ -1,17 +1,17 @@
 'use client'
 
+import dagre from 'dagre'
 import { useMemo } from 'react'
 import ReactFlow, {
   Background,
+  BaseEdge,
   Controls,
   type Edge,
-  type Node,
+  type EdgeProps,
   MarkerType,
+  type Node,
   Position,
-  BaseEdge,
-  EdgeProps,
 } from 'reactflow'
-import dagre from 'dagre'
 import 'reactflow/dist/style.css'
 import { X } from 'lucide-react'
 
@@ -33,11 +33,20 @@ const nodeWidth = 140
 const nodeHeight = 140 // Make it square for circles
 
 // Custom self-loop edge component
-const SelfLoopEdge = ({ id, sourceX, sourceY, style, markerEnd, label, labelStyle, labelBgStyle }: EdgeProps) => {
+const SelfLoopEdge = ({
+  id,
+  sourceX,
+  sourceY,
+  style,
+  markerEnd,
+  label,
+  labelStyle,
+  labelBgStyle,
+}: EdgeProps) => {
   // Create a curved loop path that goes up and around
   const radius = 50
   const offsetX = nodeWidth / 2 + 10
-  
+
   // Create a smooth loop: start from right side, curve up and around, back to start
   const path = `M ${sourceX + offsetX} ${sourceY} 
                 C ${sourceX + offsetX + radius} ${sourceY - radius * 0.5}, 
@@ -46,7 +55,7 @@ const SelfLoopEdge = ({ id, sourceX, sourceY, style, markerEnd, label, labelStyl
                 C ${sourceX + offsetX - radius} ${sourceY - radius * 1.5}, 
                   ${sourceX + offsetX - radius} ${sourceY - radius * 0.5}, 
                   ${sourceX + offsetX} ${sourceY}`
-  
+
   const labelX = sourceX + offsetX
   const labelY = sourceY - radius * 1.5
   const labelText = typeof label === 'string' ? label : String(label || '')
@@ -54,12 +63,7 @@ const SelfLoopEdge = ({ id, sourceX, sourceY, style, markerEnd, label, labelStyl
 
   return (
     <>
-      <BaseEdge
-        id={id}
-        path={path}
-        style={style}
-        markerEnd={markerEnd}
-      />
+      <BaseEdge id={id} path={path} style={style} markerEnd={markerEnd} />
       {labelText && (
         <g transform={`translate(${labelX}, ${labelY})`}>
           <rect
@@ -73,11 +77,7 @@ const SelfLoopEdge = ({ id, sourceX, sourceY, style, markerEnd, label, labelStyl
             strokeWidth={labelBgStyle?.strokeWidth || 1}
             rx={4}
           />
-          <text
-            textAnchor="middle"
-            dominantBaseline="middle"
-            style={labelStyle}
-          >
+          <text textAnchor="middle" dominantBaseline="middle" style={labelStyle}>
             {labelText}
           </text>
         </g>
@@ -94,9 +94,9 @@ const getLayoutedElements = (nodes: Node[], edges: Edge[], direction = 'LR') => 
   const dagreGraph = new dagre.graphlib.Graph()
   dagreGraph.setDefaultEdgeLabel(() => ({}))
   // Use compound: false to allow cycles, and set acyclic: false
-  dagreGraph.setGraph({ 
-    rankdir: direction, 
-    nodesep: 100, 
+  dagreGraph.setGraph({
+    rankdir: direction,
+    nodesep: 100,
     ranksep: 150,
     acyclicer: undefined, // Allow cycles
   })
@@ -157,13 +157,13 @@ const PhaseDiagram = ({ phases, nextPhaseKeybind }: PhaseDiagramProps) => {
         position: { x: 0, y: 0 }, // Will be calculated by dagre
         data: {
           label: (
-            <div className="flex flex-col items-center justify-center gap-1 p-3 h-full">
+            <div className="flex h-full flex-col items-center justify-center gap-1 p-3">
               {isStartNode && (
-                <div className="mb-1 rounded-full bg-[rgba(20,20,20,0.4)] border border-[rgba(255,255,255,0.1)] px-2 py-0.5 text-[#e5e5e5] text-xs font-light opacity-60">
+                <div className="mb-1 rounded-full border border-[rgba(255,255,255,0.1)] bg-[rgba(20,20,20,0.4)] px-2 py-0.5 font-light text-[#e5e5e5] text-xs opacity-60">
                   START
                 </div>
               )}
-              <div className="font-light text-[#e5e5e5] text-sm text-center leading-tight opacity-80">
+              <div className="text-center font-light text-[#e5e5e5] text-sm leading-tight opacity-80">
                 {phase.name}
               </div>
               <div className="text-[#e5e5e5] text-xs opacity-50">#{index}</div>
@@ -178,10 +178,10 @@ const PhaseDiagram = ({ phases, nextPhaseKeybind }: PhaseDiagramProps) => {
         style: {
           width: nodeWidth,
           height: nodeHeight,
-          border: hasDirectKeybind 
-            ? '2px solid rgba(255, 255, 255, 0.2)' 
-            : isStartNode 
-              ? '2px solid rgba(255, 255, 255, 0.15)' 
+          border: hasDirectKeybind
+            ? '2px solid rgba(255, 255, 255, 0.2)'
+            : isStartNode
+              ? '2px solid rgba(255, 255, 255, 0.15)'
               : '1px solid rgba(255, 255, 255, 0.1)',
           borderRadius: '50%', // Make it circular
           backgroundColor: 'rgba(20, 20, 20, 0.6)',
@@ -194,16 +194,16 @@ const PhaseDiagram = ({ phases, nextPhaseKeybind }: PhaseDiagramProps) => {
     phases.forEach((phase, index) => {
       // Skip if next is undefined or invalid
       if (phase.next === undefined || phase.next < 0) return
-      
+
       // If next is 0 and this is not the Start phase (index 0), treat as end state with self-loop
       // If next equals index, it's explicitly a self-loop
       // Otherwise, follow the normal transition
       const isEndState = (phase.next === 0 && index !== 0) || phase.next === index
       const targetIndex = isEndState ? index : phase.next
-      
+
       // Validate target index
       if (targetIndex < 0 || targetIndex >= phases.length) return
-      
+
       // Skip self-loops that aren't end states (shouldn't happen, but safety check)
       if (targetIndex === index && !isEndState) return
 
@@ -248,8 +248,8 @@ const PhaseDiagram = ({ phases, nextPhaseKeybind }: PhaseDiagramProps) => {
   if (!phases || phases.length === 0) return null
 
   return (
-      <div className="flex flex-col h-full">
-      <h3 className="mb-4 font-light text-sm text-[#e5e5e5] opacity-60">Phase State Diagram</h3>
+    <div className="flex h-full flex-col">
+      <h3 className="mb-4 font-light text-[#e5e5e5] text-sm opacity-60">Phase State Diagram</h3>
       <div className="card-clear flex-1" style={{ minHeight: '600px', height: '100%' }}>
         <ReactFlow
           nodes={nodes}
@@ -270,27 +270,31 @@ const PhaseDiagram = ({ phases, nextPhaseKeybind }: PhaseDiagramProps) => {
           <Controls showInteractive={false} />
         </ReactFlow>
       </div>
-      <div className="mt-4 space-y-2 text-xs text-[#e5e5e5] opacity-50">
+      <div className="mt-4 space-y-2 text-[#e5e5e5] text-xs opacity-50">
         <p>
-          <span className="font-light opacity-70">Circle with "START":</span> The initial phase where the game begins
+          <span className="font-light opacity-70">Circle with "START":</span> The initial phase
+          where the game begins
         </p>
         <p>
-          <span className="font-light opacity-70">Thicker border:</span> Phase has a direct keybind (shown on the phase) to jump directly to it
+          <span className="font-light opacity-70">Thicker border:</span> Phase has a direct keybind
+          (shown on the phase) to jump directly to it
         </p>
         <p>
-          <span className="font-light opacity-70">Arrows:</span> Show the flow from one phase to the next
+          <span className="font-light opacity-70">Arrows:</span> Show the flow from one phase to the
+          next
         </p>
         {nextPhaseKeybind && (
           <p>
             <span className="font-light opacity-70">Arrow labels:</span> Show the keybind{' '}
-            <kbd className="bg-[rgba(20,20,20,0.4)] border border-[rgba(255,255,255,0.1)] rounded px-2 py-1 font-mono text-xs text-[#e5e5e5] opacity-60">
+            <kbd className="rounded border border-[rgba(255,255,255,0.1)] bg-[rgba(20,20,20,0.4)] px-2 py-1 font-mono text-[#e5e5e5] text-xs opacity-60">
               {formatKeys(nextPhaseKeybind)}
             </kbd>{' '}
             to advance to the next phase
           </p>
         )}
         <p>
-          <span className="font-light opacity-70">Self-loops:</span> End states that loop back to themselves
+          <span className="font-light opacity-70">Self-loops:</span> End states that loop back to
+          themselves
         </p>
       </div>
     </div>
@@ -355,10 +359,10 @@ export const HelpModal = ({ showHelp, config, setShowHelp }: HelpModalProps) => 
         }
       }}
     >
-      <div className="card-clear flex w-full max-w-7xl max-h-[90vh] flex-col rounded-lg bg-[rgba(15,15,15,0.95)] border border-[rgba(255,255,255,0.1)]">
-        <div className="flex-shrink-0 border-b border-[rgba(255,255,255,0.1)] px-6 py-4">
+      <div className="card-clear flex max-h-[90vh] w-full max-w-7xl flex-col rounded-lg border border-[rgba(255,255,255,0.1)] bg-[rgba(15,15,15,0.95)]">
+        <div className="flex-shrink-0 border-[rgba(255,255,255,0.1)] border-b px-6 py-4">
           <div className="flex items-center justify-between">
-            <h2 id="help-modal-title" className="font-light text-lg text-[#e5e5e5] opacity-90">
+            <h2 id="help-modal-title" className="font-light text-[#e5e5e5] text-lg opacity-90">
               Keyboard Shortcuts
             </h2>
             <button
@@ -373,22 +377,28 @@ export const HelpModal = ({ showHelp, config, setShowHelp }: HelpModalProps) => 
         </div>
 
         <div className="flex-1 overflow-y-auto px-6 py-4">
-          <div className={`grid gap-6 ${config.phases && config.phases.length > 0 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+          <div
+            className={`grid gap-6 ${config.phases && config.phases.length > 0 ? 'grid-cols-2' : 'grid-cols-1'}`}
+          >
             {/* Left column: Shortcuts table */}
             <div className="flex flex-col">
-              <h3 className="mb-3 font-light text-xs text-[#e5e5e5] opacity-60">Keyboard Shortcuts</h3>
-              <div className="space-y-2 flex-1">
+              <h3 className="mb-3 font-light text-[#e5e5e5] text-xs opacity-60">
+                Keyboard Shortcuts
+              </h3>
+              <div className="flex-1 space-y-2">
                 {getHelpText(config).map((item) => (
                   <div
                     key={`${item.keys}-${item.label}`}
                     className="card-clear flex items-center justify-between"
                   >
-                    <span className="font-light text-[#e5e5e5] text-sm opacity-80">{item.label}</span>
+                    <span className="font-light text-[#e5e5e5] text-sm opacity-80">
+                      {item.label}
+                    </span>
                     <div className="flex gap-2">
                       {item.keys.split('/').map((key) => (
                         <kbd
                           key={key}
-                          className="bg-[rgba(20,20,20,0.4)] border border-[rgba(255,255,255,0.1)] rounded px-2.5 py-1 font-mono font-light text-[#e5e5e5] text-xs opacity-70"
+                          className="rounded border border-[rgba(255,255,255,0.1)] bg-[rgba(20,20,20,0.4)] px-2.5 py-1 font-light font-mono text-[#e5e5e5] text-xs opacity-70"
                         >
                           {key}
                         </kbd>
@@ -413,7 +423,7 @@ export const HelpModal = ({ showHelp, config, setShowHelp }: HelpModalProps) => 
           <div className="mt-6 text-center">
             <p className="text-[#e5e5e5] text-xs opacity-50">
               Press{' '}
-              <kbd className="bg-[rgba(20,20,20,0.4)] border border-[rgba(255,255,255,0.1)] rounded px-2 py-1 font-mono font-light text-[#e5e5e5] text-xs opacity-70">
+              <kbd className="rounded border border-[rgba(255,255,255,0.1)] bg-[rgba(20,20,20,0.4)] px-2 py-1 font-light font-mono text-[#e5e5e5] text-xs opacity-70">
                 ESC
               </kbd>{' '}
               to close

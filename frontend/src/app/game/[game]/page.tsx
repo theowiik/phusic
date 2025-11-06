@@ -10,9 +10,7 @@ export default function GamePage({ params }: { params: Promise<{ game: string }>
     <Suspense
       fallback={
         <div className="flex min-h-screen items-center justify-center bg-[#0a0a0a]">
-          <div className="text-[#e5e5e5] opacity-50 font-light text-sm">
-            Loading...
-          </div>
+          <div className="font-light text-[#e5e5e5] text-sm opacity-50">Loading...</div>
         </div>
       }
     >

@@ -1,6 +1,6 @@
 'use client'
 
-import { Plus, X, Trash2 } from 'lucide-react'
+import { Plus, Trash2, X } from 'lucide-react'
 import type { Config } from '../../types'
 import { ImagePreview } from './image-preview'
 
@@ -20,10 +20,7 @@ export const PhasesTab = ({
   return (
     <div className="space-y-4">
       {config.phases?.map((phase, phaseIdx) => (
-        <div
-          key={`phase-${phaseIdx}-${phase.name}`}
-          className="card-clear"
-        >
+        <div key={`phase-${phaseIdx}-${phase.name}`} className="card-clear">
           <div className="mb-3 flex items-center justify-between">
             <h3 className="font-light text-[#e5e5e5] text-base opacity-80">Phase {phaseIdx + 1}</h3>
             <button
@@ -32,7 +29,7 @@ export const PhasesTab = ({
                 const newPhases = config.phases.filter((_, i) => i !== phaseIdx)
                 updateConfig('phases', newPhases)
               }}
-              className="btn-clear flex items-center gap-1 text-sm font-light"
+              className="btn-clear flex items-center gap-1 font-light text-sm"
               title="Remove phase"
             >
               <Trash2 size={16} />
@@ -43,7 +40,7 @@ export const PhasesTab = ({
             <div>
               <label
                 htmlFor={`phase-${phaseIdx}-name`}
-                className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70"
+                className="mb-2 block font-light text-[#e5e5e5] text-sm opacity-70"
               >
                 Name
               </label>
@@ -60,7 +57,7 @@ export const PhasesTab = ({
             <div>
               <label
                 htmlFor={`phase-${phaseIdx}-next`}
-                className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70"
+                className="mb-2 block font-light text-[#e5e5e5] text-sm opacity-70"
               >
                 Next Phase Index
               </label>
@@ -80,7 +77,7 @@ export const PhasesTab = ({
             <div>
               <label
                 htmlFor={`phase-${phaseIdx}-keybind`}
-                className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70"
+                className="mb-2 block font-light text-[#e5e5e5] text-sm opacity-70"
               >
                 Keybind (optional)
               </label>
@@ -123,7 +120,7 @@ export const PhasesTab = ({
                     const newKeybind = [...(phase.keybind || []), '']
                     updateArrayItem('phases', phaseIdx, { ...phase, keybind: newKeybind })
                   }}
-                  className="btn-clear flex items-center gap-1 text-sm font-light"
+                  className="btn-clear flex items-center gap-1 font-light text-sm"
                 >
                   <Plus size={16} />
                   Add Keybind
@@ -133,7 +130,7 @@ export const PhasesTab = ({
             <div>
               <label
                 htmlFor={`phase-${phaseIdx}-images`}
-                className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70"
+                className="mb-2 block font-light text-[#e5e5e5] text-sm opacity-70"
               >
                 Images
               </label>
@@ -179,7 +176,7 @@ export const PhasesTab = ({
                     const newImages = [...(phase.images || []), '']
                     updateArrayItem('phases', phaseIdx, { ...phase, images: newImages })
                   }}
-                  className="btn-clear flex items-center gap-1 text-sm font-light"
+                  className="btn-clear flex items-center gap-1 font-light text-sm"
                 >
                   <Plus size={16} />
                   Add Image
@@ -189,7 +186,7 @@ export const PhasesTab = ({
             <div>
               <label
                 htmlFor={`phase-${phaseIdx}-music`}
-                className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70"
+                className="mb-2 block font-light text-[#e5e5e5] text-sm opacity-70"
               >
                 Music
               </label>
@@ -226,7 +223,7 @@ export const PhasesTab = ({
                     const newMusic = [...(phase.music || []), '']
                     updateArrayItem('phases', phaseIdx, { ...phase, music: newMusic })
                   }}
-                  className="btn-clear flex items-center gap-1 text-sm font-light"
+                  className="btn-clear flex items-center gap-1 font-light text-sm"
                 >
                   <Plus size={16} />
                   Add Music
@@ -246,7 +243,7 @@ export const PhasesTab = ({
             music: [],
           })
         }
-        className="btn-clear flex items-center gap-1 text-sm font-light"
+        className="btn-clear flex items-center gap-1 font-light text-sm"
       >
         <Plus size={16} />
         Add Phase

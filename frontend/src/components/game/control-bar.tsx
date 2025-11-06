@@ -1,7 +1,7 @@
 'use client'
 
+import { HelpCircle, Settings, Volume2, VolumeX } from 'lucide-react'
 import Link from 'next/link'
-import { Volume2, VolumeX, HelpCircle, Settings } from 'lucide-react'
 
 interface ControlBarProps {
   muted: boolean
@@ -10,13 +10,16 @@ interface ControlBarProps {
 }
 
 export const ControlBar = ({ muted, setMuted, setShowHelp }: ControlBarProps) => {
+  const buttonClasses =
+    'text-white/60 hover:text-white/90 transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer bg-transparent border-0 p-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] hover:drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]'
+
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-4">
       <button
         type="button"
         onClick={() => setMuted(!muted)}
         title={muted ? 'Unmute' : 'Mute'}
-        className="btn-clear"
+        className={buttonClasses}
       >
         {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
       </button>
@@ -28,16 +31,12 @@ export const ControlBar = ({ muted, setMuted, setShowHelp }: ControlBarProps) =>
           setShowHelp(true)
         }}
         title="Show keyboard shortcuts"
-        className="btn-clear"
+        className={buttonClasses}
       >
         <HelpCircle size={18} />
       </button>
 
-      <Link
-        href="/config"
-        title="Configuration"
-        className="btn-clear"
-      >
+      <Link href="/config" title="Configuration" className={buttonClasses}>
         <Settings size={18} />
       </Link>
     </div>

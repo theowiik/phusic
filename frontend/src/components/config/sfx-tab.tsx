@@ -1,6 +1,6 @@
 'use client'
 
-import { Plus, X, Trash2 } from 'lucide-react'
+import { Plus, Trash2, X } from 'lucide-react'
 import type { Config } from '../../types'
 
 interface SFXTabProps {
@@ -20,7 +20,7 @@ export const SFXTab = ({ config, updateArrayItem, addArrayItem, removeArrayItem 
             <button
               type="button"
               onClick={() => removeArrayItem('sfx', idx)}
-              className="btn-clear flex items-center gap-1 text-sm font-light"
+              className="btn-clear flex items-center gap-1 font-light text-sm"
               title="Remove SFX"
             >
               <Trash2 size={16} />
@@ -29,7 +29,10 @@ export const SFXTab = ({ config, updateArrayItem, addArrayItem, removeArrayItem 
           </div>
           <div className="space-y-3">
             <div>
-              <label htmlFor={`sfx-${idx}-file`} className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70">
+              <label
+                htmlFor={`sfx-${idx}-file`}
+                className="mb-2 block font-light text-[#e5e5e5] text-sm opacity-70"
+              >
                 File
               </label>
               <input
@@ -44,7 +47,7 @@ export const SFXTab = ({ config, updateArrayItem, addArrayItem, removeArrayItem 
             <div>
               <label
                 htmlFor={`sfx-${idx}-keybind`}
-                className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70"
+                className="mb-2 block font-light text-[#e5e5e5] text-sm opacity-70"
               >
                 Keybind
               </label>
@@ -87,7 +90,7 @@ export const SFXTab = ({ config, updateArrayItem, addArrayItem, removeArrayItem 
                     const newKeybind = [...(sfx.keybind || []), '']
                     updateArrayItem('sfx', idx, { ...sfx, keybind: newKeybind })
                   }}
-                  className="btn-clear flex items-center gap-1 text-sm font-light"
+                  className="btn-clear flex items-center gap-1 font-light text-sm"
                 >
                   <Plus size={16} />
                   Add Keybind
@@ -100,7 +103,7 @@ export const SFXTab = ({ config, updateArrayItem, addArrayItem, removeArrayItem 
       <button
         type="button"
         onClick={() => addArrayItem('sfx', { file: '', keybind: [] })}
-        className="btn-clear flex items-center gap-1 text-sm font-light"
+        className="btn-clear flex items-center gap-1 font-light text-sm"
       >
         <Plus size={16} />
         Add Sound Effect

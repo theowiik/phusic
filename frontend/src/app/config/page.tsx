@@ -6,9 +6,7 @@ export default function ConfigBuilderPage() {
     <Suspense
       fallback={
         <div className="flex min-h-screen items-center justify-center bg-[#0a0a0a]">
-          <div className="text-[#e5e5e5] opacity-50 font-light text-sm">
-            Loading config...
-          </div>
+          <div className="font-light text-[#e5e5e5] text-sm opacity-50">Loading config...</div>
         </div>
       }
     >

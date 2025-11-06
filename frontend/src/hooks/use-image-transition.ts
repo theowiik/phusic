@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AUDIO_CONSTANTS } from '../constants/audio'
 import { getAssetPath } from '../constants/config'
 import type { Config, Phase } from '../types'
@@ -9,13 +9,21 @@ export const useImageTransition = (currentPhase: Phase | null, config: Config | 
   const [currentImage, setCurrentImage] = useState<string>('')
   const [currentImageFilename, setCurrentImageFilename] = useState<string>('')
   const [imageOpacity, setImageOpacity] = useState<number>(1)
-  const [initialized, setInitialized] = useState(false)
+  const initializedRef = useRef(false)
+  const previousPhaseNameRef = useRef<string | null>(null)
 
   // Update image when phase changes
   useEffect(() => {
     if (!currentPhase || !config) return
 
-    const shouldFade = initialized
+    // Check if phase actually changed by comparing phase name
+    const phaseChanged = previousPhaseNameRef.current !== currentPhase.name
+    previousPhaseNameRef.current = currentPhase.name
+
+    // If phase didn't change, don't update the image
+    if (!phaseChanged && initializedRef.current) return
+
+    const shouldFade = initializedRef.current
 
     if (shouldFade) {
       // Fade out current image
@@ -25,6 +33,15 @@ export const useImageTransition = (currentPhase: Phase | null, config: Config | 
     const delay = shouldFade ? AUDIO_CONSTANTS.IMAGE_HALF_TRANSITION : 0
 
     const timeoutId = setTimeout(() => {
+      // Ensure we have images for this phase
+      if (!currentPhase.images || currentPhase.images.length === 0) {
+        setCurrentImage('')
+        setCurrentImageFilename('')
+        setImageOpacity(1)
+        initializedRef.current = true
+        return
+      }
+
       const randomImage =
         currentPhase.images[Math.floor(Math.random() * currentPhase.images.length)]
       setCurrentImageFilename(randomImage)
@@ -37,11 +54,11 @@ export const useImageTransition = (currentPhase: Phase | null, config: Config | 
 
       // Fade in new image
       setImageOpacity(1)
-      setInitialized(true)
+      initializedRef.current = true
     }, delay)
 
     return () => clearTimeout(timeoutId)
-  }, [currentPhase, config, initialized])
+  }, [currentPhase, config])
 
   return { currentImage, currentImageFilename, imageOpacity }
 }

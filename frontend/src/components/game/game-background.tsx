@@ -18,6 +18,7 @@ export const GameBackground = ({
   return (
     <div className="absolute inset-0 h-full w-full">
       <Image
+        key={currentImage}
         src={currentImage}
         alt={currentPhase.name}
         fill

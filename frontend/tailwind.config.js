@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        playful: ['"Archivo Black"', 'sans-serif'],
+      },
       colors: {
         dark: {
           bg: '#0a0a0a',
@@ -17,6 +20,21 @@ module.exports = {
           text: '#e5e5e5',
           textMuted: 'rgba(229, 229, 229, 0.6)',
           textDim: 'rgba(229, 229, 229, 0.4)',
+        },
+      },
+      animation: {
+        'fade-in': 'fade-in 0.5s ease-out',
+      },
+      keyframes: {
+        'fade-in': {
+          from: {
+            opacity: '0',
+            transform: 'translateY(-10px)',
+          },
+          to: {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
         },
       },
     },

@@ -16,10 +16,15 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
         const phase = config[type] || ({ name: '', next: 0, images: [], music: [] } as Phase)
         return (
           <div key={type} className="card-clear">
-            <h3 className="mb-3 font-light text-[#e5e5e5] text-base capitalize opacity-80">{type}</h3>
+            <h3 className="mb-3 font-light text-[#e5e5e5] text-base capitalize opacity-80">
+              {type}
+            </h3>
             <div className="space-y-3">
               <div>
-                <label htmlFor={`${type}-name`} className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70">
+                <label
+                  htmlFor={`${type}-name`}
+                  className="mb-2 block font-light text-[#e5e5e5] text-sm opacity-70"
+                >
                   Name
                 </label>
                 <input
@@ -31,7 +36,10 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                 />
               </div>
               <div>
-                <label htmlFor={`${type}-next`} className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70">
+                <label
+                  htmlFor={`${type}-next`}
+                  className="mb-2 block font-light text-[#e5e5e5] text-sm opacity-70"
+                >
                   Next Phase Index
                 </label>
                 <input
@@ -48,7 +56,10 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                 />
               </div>
               <div>
-                <label htmlFor={`${type}-images`} className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70">
+                <label
+                  htmlFor={`${type}-images`}
+                  className="mb-2 block font-light text-[#e5e5e5] text-sm opacity-70"
+                >
                   Images
                 </label>
                 <div className="space-y-3">
@@ -89,7 +100,7 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                       const newImages = [...(phase.images || []), '']
                       updateConfig(type, { ...phase, images: newImages })
                     }}
-                    className="btn-clear flex items-center gap-1 text-sm font-light"
+                    className="btn-clear flex items-center gap-1 font-light text-sm"
                   >
                     <Plus size={16} />
                     Add Image
@@ -97,7 +108,10 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                 </div>
               </div>
               <div>
-                <label htmlFor={`${type}-music`} className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70">
+                <label
+                  htmlFor={`${type}-music`}
+                  className="mb-2 block font-light text-[#e5e5e5] text-sm opacity-70"
+                >
                   Music
                 </label>
                 <div className="space-y-2">
@@ -135,7 +149,7 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                       const newMusic = [...(phase.music || []), '']
                       updateConfig(type, { ...phase, music: newMusic })
                     }}
-                    className="btn-clear flex items-center gap-1 text-sm font-light"
+                    className="btn-clear flex items-center gap-1 font-light text-sm"
                   >
                     <Plus size={16} />
                     Add Music
