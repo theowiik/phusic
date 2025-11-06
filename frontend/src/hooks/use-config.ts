@@ -20,7 +20,19 @@ export const useConfig = (gameName?: string) => {
 
     loadConfig(configPath)
       .then((data) => {
-        setConfig(data)
+        // Merge defaults only for mute and help if they're missing
+        const mergedConfig: Config = {
+          ...data,
+          keybinds: {
+            ...data.keybinds,
+            // Only apply defaults if missing
+            mute: data.keybinds?.mute || ['m', 'M'],
+            help: data.keybinds?.help || ['h', 'H'],
+            // nextPhase should only come from config, no default
+            nextPhase: data.keybinds?.nextPhase,
+          },
+        }
+        setConfig(mergedConfig)
         setLoading(false)
       })
       .catch((err) => {

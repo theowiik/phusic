@@ -5,8 +5,8 @@ export default function ConfigBuilderPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center">
-          <div className="text-gray-600 text-xl">Loading config...</div>
+        <div className="flex min-h-screen items-center justify-center bg-gray-50">
+          <div className="font-medium text-gray-600 text-lg">Loading config...</div>
         </div>
       }
     >

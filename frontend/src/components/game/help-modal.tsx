@@ -55,7 +55,7 @@ export const HelpModal = ({ showHelp, config, setShowHelp }: HelpModalProps) => 
       role="dialog"
       aria-modal="true"
       aria-labelledby="help-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           setShowHelp(false)
@@ -67,16 +67,16 @@ export const HelpModal = ({ showHelp, config, setShowHelp }: HelpModalProps) => 
         }
       }}
     >
-      <div className="w-full max-w-2xl bg-zinc-900 p-8">
-        <div className="mb-6 flex justify-between">
-          <h2 id="help-modal-title" className="text-3xl text-white">
-            KEYBOARD SHORTCUTS
+      <div className="w-full max-w-2xl rounded-2xl bg-white/95 p-8 shadow-2xl backdrop-blur-md">
+        <div className="mb-8 flex items-center justify-between">
+          <h2 id="help-modal-title" className="font-bold text-3xl text-gray-900">
+            Keyboard Shortcuts
           </h2>
           <button
             type="button"
             onClick={() => setShowHelp(false)}
             aria-label="Close"
-            className="text-2xl text-white"
+            className="rounded-lg p-2 text-2xl text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900"
           >
             ×
           </button>
@@ -86,12 +86,15 @@ export const HelpModal = ({ showHelp, config, setShowHelp }: HelpModalProps) => 
           {getHelpText(config).map((item) => (
             <div
               key={`${item.keys}-${item.label}`}
-              className="flex justify-between bg-white/5 px-4 py-3"
+              className="flex items-center justify-between rounded-lg bg-gray-50 px-5 py-3 transition-colors hover:bg-gray-100"
             >
-              <span className="text-white">{item.label}</span>
+              <span className="font-medium text-gray-900">{item.label}</span>
               <div className="flex gap-2">
                 {item.keys.split('/').map((key) => (
-                  <kbd key={key} className="bg-white/10 px-3 py-1 font-mono text-sm text-white">
+                  <kbd
+                    key={key}
+                    className="rounded-md bg-gray-200 px-3 py-1.5 font-mono font-semibold text-gray-800 text-sm shadow-sm"
+                  >
                     {key}
                   </kbd>
                 ))}
@@ -100,10 +103,13 @@ export const HelpModal = ({ showHelp, config, setShowHelp }: HelpModalProps) => 
           ))}
         </div>
 
-        <div className="mt-6 text-center">
-          <p className="text-sm text-white/60">
-            Press <kbd className="bg-white/10 px-2 py-1 font-mono text-white text-xs">ESC</kbd> to
-            close
+        <div className="mt-8 text-center">
+          <p className="text-gray-500 text-sm">
+            Press{' '}
+            <kbd className="rounded bg-gray-200 px-2 py-1 font-mono font-semibold text-gray-800 text-xs">
+              ESC
+            </kbd>{' '}
+            to close
           </p>
         </div>
       </div>

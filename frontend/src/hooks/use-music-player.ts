@@ -38,32 +38,46 @@ export const useMusicPlayer = (
       // Refs not ready yet, skip this render
       return
     }
-    
-    let handleCanPlay: (() => void) | null = null
-    nextRef.current.src = musicPath
-    nextRef.current.loop = true
-    nextRef.current.volume = 0
-    
+
+    const audioElement = nextRef.current
+    let eventListenerAdded = false
+    let handlerCalled = false
+
     // Wait for audio to be ready before trying to play
-    handleCanPlay = () => {
-      if (nextRef.current && !muted) {
-        playbackAttemptedRef.current.add(nextRef.current)
-        tryPlayAudio(nextRef.current)
-        nextRef.current.removeEventListener('canplay', handleCanPlay!)
+    const handleCanPlay = () => {
+      if (handlerCalled) return
+      handlerCalled = true
+      if (audioElement && !muted) {
+        playbackAttemptedRef.current.add(audioElement)
+        tryPlayAudio(audioElement).catch(() => {
+          // Silently handle play errors
+        })
+      }
+      // Remove listener after it fires
+      if (audioElement) {
+        audioElement.removeEventListener('canplay', handleCanPlay)
+        eventListenerAdded = false
       }
     }
-    
+
+    audioElement.src = musicPath
+    audioElement.loop = true
+    audioElement.volume = 0
+
     // If already loaded, try playing immediately, otherwise wait for canplay
-    if (nextRef.current.readyState >= 2) {
+    if (audioElement.readyState >= 2) {
       // HAVE_CURRENT_DATA or higher - try playing immediately if not muted
       if (!muted) {
-        playbackAttemptedRef.current.add(nextRef.current)
-        tryPlayAudio(nextRef.current)
+        playbackAttemptedRef.current.add(audioElement)
+        tryPlayAudio(audioElement).catch(() => {
+          // Silently handle play errors
+        })
       }
     } else {
-      nextRef.current.addEventListener('canplay', handleCanPlay)
+      audioElement.addEventListener('canplay', handleCanPlay)
+      eventListenerAdded = true
       // Also try loading the audio explicitly
-      nextRef.current.load()
+      audioElement.load()
     }
 
     // Fade out current, fade in new
@@ -87,7 +101,12 @@ export const useMusicPlayer = (
 
       if (nextRef.current) {
         // Ensure audio is playing if it should be (handles autoplay block)
-        if (!muted && nextRef.current.paused && nextRef.current.src && nextRef.current.readyState >= 2) {
+        if (
+          !muted &&
+          nextRef.current.paused &&
+          nextRef.current.src &&
+          nextRef.current.readyState >= 2
+        ) {
           playbackAttemptedRef.current.add(nextRef.current)
           tryPlayAudio(nextRef.current)
         }
@@ -115,8 +134,12 @@ export const useMusicPlayer = (
         clearInterval(fadeIntervalRef.current)
       }
       // Clean up event listeners
-      if (nextRef.current && handleCanPlay) {
-        nextRef.current.removeEventListener('canplay', handleCanPlay)
+      if (eventListenerAdded && audioElement) {
+        try {
+          audioElement.removeEventListener('canplay', handleCanPlay)
+        } catch {
+          // Ignore errors during cleanup (listener may have already been removed)
+        }
       }
     }
   }, [currentPhase, config, volume, muted])
@@ -125,7 +148,9 @@ export const useMusicPlayer = (
   useEffect(() => {
     const activeRef = currentMusicRef.current === 1 ? musicRef1 : musicRef2
     const nextRef = currentMusicRef.current === 1 ? musicRef2 : musicRef1
-    
+
+    const cleanupFunctions: Array<() => void> = []
+
     // Update volume for active ref
     if (activeRef.current) {
       activeRef.current.volume = volume * (muted ? 0 : 1)
@@ -136,17 +161,31 @@ export const useMusicPlayer = (
         const tryStart = () => {
           if (activeRef.current && activeRef.current.readyState >= 2 && activeRef.current.paused) {
             playbackAttemptedRef.current.add(activeRef.current)
-            tryPlayAudio(activeRef.current)
+            tryPlayAudio(activeRef.current).catch(() => {
+              // Silently handle play errors
+            })
           }
         }
         if (activeRef.current.readyState >= 2) {
           tryStart()
         } else {
-          activeRef.current.addEventListener('canplay', tryStart, { once: true })
+          const activeElement = activeRef.current
+          const wrappedTryStart = () => {
+            tryStart()
+            activeElement.removeEventListener('canplay', wrappedTryStart)
+          }
+          activeElement.addEventListener('canplay', wrappedTryStart)
+          cleanupFunctions.push(() => {
+            try {
+              activeElement.removeEventListener('canplay', wrappedTryStart)
+            } catch {
+              // Ignore errors during cleanup
+            }
+          })
         }
       }
     }
-    
+
     // Also check nextRef in case it has audio that should be playing
     if (nextRef.current) {
       nextRef.current.volume = volume * (muted ? 0 : 1)
@@ -155,15 +194,33 @@ export const useMusicPlayer = (
         const tryStart = () => {
           if (nextRef.current && nextRef.current.readyState >= 2 && nextRef.current.paused) {
             playbackAttemptedRef.current.add(nextRef.current)
-            tryPlayAudio(nextRef.current)
+            tryPlayAudio(nextRef.current).catch(() => {
+              // Silently handle play errors
+            })
           }
         }
         if (nextRef.current.readyState >= 2) {
           tryStart()
         } else {
-          nextRef.current.addEventListener('canplay', tryStart, { once: true })
+          const nextElement = nextRef.current
+          const wrappedTryStart = () => {
+            tryStart()
+            nextElement.removeEventListener('canplay', wrappedTryStart)
+          }
+          nextElement.addEventListener('canplay', wrappedTryStart)
+          cleanupFunctions.push(() => {
+            try {
+              nextElement.removeEventListener('canplay', wrappedTryStart)
+            } catch {
+              // Ignore errors during cleanup
+            }
+          })
         }
       }
+    }
+
+    return () => {
+      cleanupFunctions.forEach((cleanup) => cleanup())
     }
   }, [volume, muted])
 

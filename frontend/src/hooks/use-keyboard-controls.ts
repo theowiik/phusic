@@ -42,8 +42,8 @@ export const useKeyboardControls = ({
 
       const { keybinds } = config
 
-      // Next phase
-      if (matchesKeybind(e.key, keybinds.nextPhase)) {
+      // Next phase - only if defined in config
+      if (keybinds.nextPhase && matchesKeybind(e.key, keybinds.nextPhase)) {
         e.preventDefault()
         if (!currentPhase) return
         if (currentPhase.next !== undefined && config.phases[currentPhase.next]) {

@@ -15,6 +15,8 @@ export const KeybindsTab = ({
   addArrayItem,
   removeArrayItem,
 }: KeybindsTabProps) => {
+  const hasNextPhase = config.keybinds?.nextPhase !== undefined
+
   return (
     <div className="space-y-6">
       {Object.entries(config.keybinds || {}).map(([key, value]) => {
@@ -58,6 +60,17 @@ export const KeybindsTab = ({
           </div>
         )
       })}
+      {!hasNextPhase && (
+        <div>
+          <button
+            type="button"
+            onClick={() => updateConfig('keybinds.nextPhase', [''])}
+            className="rounded bg-blue-600 px-4 py-2 font-medium text-white transition hover:bg-blue-700"
+          >
+            + Add Next Phase Keybind
+          </button>
+        </div>
+      )}
     </div>
   )
 }

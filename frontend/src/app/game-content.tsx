@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AudioElements } from '../components/game/audio-elements'
 import { ControlBar } from '../components/game/control-bar'
 import { GameBackground } from '../components/game/game-background'
@@ -19,7 +19,7 @@ interface GameContentProps {
 
 export function GameContent({ gameName }: GameContentProps = {}) {
   const { config, loading } = useConfig(gameName)
-  const [currentPhase, setCurrentPhase] = useState<Phase | null>(config?.phases[0] || null)
+  const [currentPhase, setCurrentPhase] = useState<Phase | null>(null)
   const [volume] = useState<number>(DEFAULT_VOLUME)
   const [muted, setMuted] = useState<boolean>(false)
   const [showHelp, setShowHelp] = useState<boolean>(false)
@@ -27,9 +27,11 @@ export function GameContent({ gameName }: GameContentProps = {}) {
   const sfxRef = useRef<HTMLAudioElement>(null)
 
   // Initialize current phase when config loads
-  if (config && !currentPhase) {
-    setCurrentPhase(config.phases[0])
-  }
+  useEffect(() => {
+    if (config?.phases && config.phases.length > 0 && !currentPhase) {
+      setCurrentPhase(config.phases[0])
+    }
+  }, [config, currentPhase])
 
   const { musicRef1, musicRef2 } = useMusicPlayer(currentPhase, config, volume, muted)
 
@@ -49,8 +51,8 @@ export function GameContent({ gameName }: GameContentProps = {}) {
 
   if (loading || !config || !currentPhase) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-4xl text-white">LOADING</div>
+      <div className="flex min-h-screen items-center justify-center bg-gray-900">
+        <div className="font-medium text-2xl text-white/80">Loading...</div>
       </div>
     )
   }
@@ -72,7 +74,7 @@ export function GameContent({ gameName }: GameContentProps = {}) {
         </div>
 
         {/* Control Bar - Bottom */}
-        <div className="p-6">
+        <div className="p-6 pb-8">
           <ControlBar muted={muted} setMuted={setMuted} setShowHelp={setShowHelp} />
         </div>
       </div>

@@ -7,7 +7,7 @@ export interface Phase {
 }
 
 export interface Keybinds {
-  nextPhase: string[]
+  nextPhase?: string[]
   mute: string[]
   help: string[]
 }

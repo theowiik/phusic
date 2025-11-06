@@ -10,14 +10,14 @@ interface ControlBarProps {
 
 export const ControlBar = ({ muted, setMuted, setShowHelp }: ControlBarProps) => {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-3">
       <button
         type="button"
         onClick={() => setMuted(!muted)}
         title={muted ? 'Unmute' : 'Mute'}
-        className="flex-1 bg-white py-3 text-black text-xl hover:bg-white/90"
+        className="flex items-center justify-center gap-2 rounded-xl bg-white/95 px-6 py-3 font-medium text-gray-900 text-lg shadow-lg backdrop-blur-sm transition-all hover:bg-white hover:shadow-xl active:scale-95"
       >
-        {muted ? '🔇' : '🔊'}
+        <span className="text-2xl leading-none">{muted ? '🔇' : '🔊'}</span>
       </button>
 
       <button
@@ -27,14 +27,14 @@ export const ControlBar = ({ muted, setMuted, setShowHelp }: ControlBarProps) =>
           setShowHelp(true)
         }}
         title="Show keyboard shortcuts"
-        className="flex-1 bg-white py-3 font-medium text-black text-sm hover:bg-white/90"
+        className="flex-1 rounded-xl bg-white/95 px-6 py-3 font-medium text-gray-900 shadow-lg backdrop-blur-sm transition-all hover:bg-white hover:shadow-xl active:scale-[0.98]"
       >
         Shortcuts
       </button>
 
       <Link
         href="/config"
-        className="flex-1 bg-white py-3 text-center font-medium text-black text-sm hover:bg-white/90"
+        className="flex-1 rounded-xl bg-white/95 px-6 py-3 text-center font-medium text-gray-900 shadow-lg backdrop-blur-sm transition-all hover:bg-white hover:shadow-xl active:scale-[0.98]"
       >
         Config
       </Link>

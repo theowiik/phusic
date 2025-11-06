@@ -16,7 +16,6 @@ const DEFAULT_CONFIG: Config = {
   assets: 'eldritch_horror',
   mockImage: '',
   keybinds: {
-    nextPhase: [' ', 'Enter'],
     mute: ['m', 'M'],
     help: ['h', 'H'],
   },
@@ -50,8 +49,20 @@ export function ConfigContent() {
 
     loadConfig(configPath)
       .then((data) => {
-        setInitialConfig(data)
-        setConfig(data)
+        // Merge defaults only for mute and help if they're missing
+        const mergedConfig: Config = {
+          ...data,
+          keybinds: {
+            ...data.keybinds,
+            // Only apply defaults if missing
+            mute: data.keybinds?.mute || ['m', 'M'],
+            help: data.keybinds?.help || ['h', 'H'],
+            // nextPhase should only come from config, no default
+            nextPhase: data.keybinds?.nextPhase,
+          },
+        }
+        setInitialConfig(mergedConfig)
+        setConfig(mergedConfig)
         setLoading(false)
       })
       .catch((err) => {
@@ -62,27 +73,27 @@ export function ConfigContent() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-gray-600 text-xl">Loading config...</div>
+      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+        <div className="font-medium text-gray-600 text-lg">Loading config...</div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="mx-auto max-w-6xl p-8">
         {/* Header */}
-        <div className="mb-6 rounded-lg bg-white p-6 shadow">
-          <div className="mb-4 flex items-start justify-between">
+        <div className="mb-6 rounded-2xl bg-white p-8 shadow-lg">
+          <div className="mb-6 flex items-start justify-between">
             <div>
               <h1 className="mb-2 font-bold text-3xl text-gray-900">Config Builder</h1>
               <p className="text-gray-600">Edit your game configuration</p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <button
                 type="button"
                 onClick={handleCopyJSON}
-                className="rounded border border-gray-300 bg-gray-100 px-4 py-2 font-medium transition hover:bg-gray-200"
+                className="rounded-xl border border-gray-300 bg-white px-5 py-2.5 font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50 hover:shadow active:scale-95"
               >
                 Copy JSON
               </button>
@@ -90,27 +101,27 @@ export function ConfigContent() {
                 type="button"
                 onClick={handleSave}
                 disabled={saving}
-                className="rounded bg-blue-600 px-4 py-2 font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-xl bg-blue-600 px-5 py-2.5 font-medium text-white shadow-lg transition-all hover:bg-blue-700 hover:shadow-xl active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {saving ? 'Saving...' : 'Download Config'}
               </button>
               <Link
                 href="/"
-                className="rounded bg-gray-600 px-4 py-2 font-medium text-white transition hover:bg-gray-700"
+                className="rounded-xl bg-gray-600 px-5 py-2.5 font-medium text-white shadow-lg transition-all hover:bg-gray-700 hover:shadow-xl active:scale-95"
               >
                 Back to Game
               </Link>
             </div>
           </div>
           {saveMessage && (
-            <div className="rounded border border-green-300 bg-green-100 p-3 text-green-800">
+            <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-green-800 shadow-sm">
               {saveMessage}
             </div>
           )}
         </div>
 
         {/* Tabs */}
-        <div className="rounded-lg bg-white shadow">
+        <div className="rounded-2xl bg-white shadow-lg">
           <div className="border-gray-200 border-b">
             <nav className="flex gap-2 p-4">
               {[
@@ -123,9 +134,9 @@ export function ConfigContent() {
                   key={tab.id}
                   type="button"
                   onClick={() => setActiveTab(tab.id)}
-                  className={`rounded px-4 py-2 font-medium transition ${
+                  className={`rounded-xl px-5 py-2.5 font-medium transition-all ${
                     activeTab === tab.id
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-blue-600 text-white shadow-md'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
@@ -135,7 +146,7 @@ export function ConfigContent() {
             </nav>
           </div>
 
-          <div className="p-6">
+          <div className="p-8">
             {activeTab === 'general' && <GeneralTab config={config} updateConfig={updateConfig} />}
             {activeTab === 'keybinds' && (
               <KeybindsTab
