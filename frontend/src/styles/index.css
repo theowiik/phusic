@@ -2,36 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap");
 @import "tailwindcss";
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
-  background-color: #0a0a0a;
-  color: #e5e5e5;
-}
-
-/* Config page utilities - minimal Tailwind alternatives */
-.btn-clear {
-  @apply text-white/60 hover:text-white/90 transition-all cursor-pointer bg-transparent border-0 p-0;
-}
-
-.input-clear {
-  @apply bg-[rgba(20,20,20,0.4)] border border-white/10 text-[#e5e5e5] px-3 py-2 rounded-lg text-sm transition-all focus:bg-[rgba(20,20,20,0.6)] focus:border-white/25 focus:outline-none focus:scale-[1.02] focus:ring-2 focus:ring-white/5;
-}
-
-.input-clear::placeholder {
-  @apply text-white/30;
-}
-
-.card-clear {
-  @apply bg-[rgba(20,20,20,0.3)] border border-white/8 rounded-xl p-4 transition-all backdrop-blur-sm hover:border-white/12 hover:bg-[rgba(20,20,20,0.4)];
-}
-
-/* ReactFlow clear theme */
+/* ReactFlow clear theme - required for third-party component styling */
 .react-flow {
   background-color: transparent;
 }

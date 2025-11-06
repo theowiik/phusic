@@ -220,7 +220,9 @@ export const useMusicPlayer = (
     }
 
     return () => {
-      cleanupFunctions.forEach((cleanup) => cleanup())
+      cleanupFunctions.forEach((cleanup) => {
+        cleanup()
+      })
     }
   }, [volume, muted])
 

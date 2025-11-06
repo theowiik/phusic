@@ -14,13 +14,16 @@ export const SFXTab = ({ config, updateArrayItem, addArrayItem, removeArrayItem 
   return (
     <div className="space-y-4">
       {config.sfx?.map((sfx, idx) => (
-        <div key={`sfx-${idx}-${sfx.file}`} className="card-clear">
+        <div
+          key={`sfx-${idx}-${sfx.file}`}
+          className="rounded-xl border border-white/8 bg-[rgba(20,20,20,0.3)] p-4 backdrop-blur-sm transition-all hover:border-white/12 hover:bg-[rgba(20,20,20,0.4)]"
+        >
           <div className="mb-3 flex items-center justify-between">
             <h3 className="font-light text-[#e5e5e5] text-base opacity-80">SFX {idx + 1}</h3>
             <button
               type="button"
               onClick={() => removeArrayItem('sfx', idx)}
-              className="btn-clear flex items-center gap-1 font-light text-sm"
+              className="flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 font-light text-sm text-white/60 transition-all hover:text-white/90"
               title="Remove SFX"
             >
               <Trash2 size={16} />
@@ -41,7 +44,7 @@ export const SFXTab = ({ config, updateArrayItem, addArrayItem, removeArrayItem 
                 value={sfx.file || ''}
                 onChange={(e) => updateArrayItem('sfx', idx, { ...sfx, file: e.target.value })}
                 placeholder="sfx.mp3"
-                className="input-clear w-full"
+                className="w-full rounded-lg border border-white/10 bg-[rgba(20,20,20,0.4)] px-3 py-2 text-[#e5e5e5] text-sm transition-all placeholder:text-white/30 focus:scale-[1.02] focus:border-white/25 focus:bg-[rgba(20,20,20,0.6)] focus:outline-none focus:ring-2 focus:ring-white/5"
               />
             </div>
             <div>
@@ -66,7 +69,7 @@ export const SFXTab = ({ config, updateArrayItem, addArrayItem, removeArrayItem 
                         })
                       }}
                       placeholder="key"
-                      className="input-clear flex-1"
+                      className="flex-1 rounded-lg border border-white/10 bg-[rgba(20,20,20,0.4)] px-3 py-2 text-[#e5e5e5] text-sm transition-all placeholder:text-white/30 focus:scale-[1.02] focus:border-white/25 focus:bg-[rgba(20,20,20,0.6)] focus:outline-none focus:ring-2 focus:ring-white/5"
                     />
                     <button
                       type="button"
@@ -77,7 +80,7 @@ export const SFXTab = ({ config, updateArrayItem, addArrayItem, removeArrayItem 
                           keybind: newKeybind,
                         })
                       }}
-                      className="btn-clear"
+                      className="cursor-pointer border-0 bg-transparent p-0 text-white/60 transition-all hover:text-white/90"
                       title="Remove keybind"
                     >
                       <X size={16} />
@@ -90,7 +93,7 @@ export const SFXTab = ({ config, updateArrayItem, addArrayItem, removeArrayItem 
                     const newKeybind = [...(sfx.keybind || []), '']
                     updateArrayItem('sfx', idx, { ...sfx, keybind: newKeybind })
                   }}
-                  className="btn-clear flex items-center gap-1 font-light text-sm"
+                  className="flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 font-light text-sm text-white/60 transition-all hover:text-white/90"
                 >
                   <Plus size={16} />
                   Add Keybind
@@ -103,7 +106,7 @@ export const SFXTab = ({ config, updateArrayItem, addArrayItem, removeArrayItem 
       <button
         type="button"
         onClick={() => addArrayItem('sfx', { file: '', keybind: [] })}
-        className="btn-clear flex items-center gap-1 font-light text-sm"
+        className="flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 font-light text-sm text-white/60 transition-all hover:text-white/90"
       >
         <Plus size={16} />
         Add Sound Effect

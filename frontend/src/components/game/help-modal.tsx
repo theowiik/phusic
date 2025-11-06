@@ -167,9 +167,9 @@ const PhaseDiagram = ({ phases, nextPhaseKeybind }: PhaseDiagramProps) => {
                 {phase.name}
               </div>
               <div className="text-[#e5e5e5] text-xs opacity-50">#{index}</div>
-              {hasDirectKeybind && (
+              {hasDirectKeybind && phase.keybind && (
                 <div className="mt-1 font-light text-[#e5e5e5] text-xs opacity-50">
-                  {formatKeys(phase.keybind!)}
+                  {formatKeys(phase.keybind)}
                 </div>
               )}
             </div>
@@ -250,7 +250,10 @@ const PhaseDiagram = ({ phases, nextPhaseKeybind }: PhaseDiagramProps) => {
   return (
     <div className="flex h-full flex-col">
       <h3 className="mb-4 font-light text-[#e5e5e5] text-sm opacity-60">Phase State Diagram</h3>
-      <div className="card-clear flex-1" style={{ minHeight: '600px', height: '100%' }}>
+      <div
+        className="flex-1 rounded-xl border border-white/8 bg-[rgba(20,20,20,0.3)] p-4 backdrop-blur-sm transition-all hover:border-white/12 hover:bg-[rgba(20,20,20,0.4)]"
+        style={{ minHeight: '600px', height: '100%' }}
+      >
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -359,7 +362,7 @@ export const HelpModal = ({ showHelp, config, setShowHelp }: HelpModalProps) => 
         }
       }}
     >
-      <div className="card-clear flex max-h-[90vh] w-full max-w-7xl flex-col rounded-lg border border-[rgba(255,255,255,0.1)] bg-[rgba(15,15,15,0.95)]">
+      <div className="flex max-h-[90vh] w-full max-w-7xl flex-col rounded-lg border border-[rgba(255,255,255,0.1)] bg-[rgba(15,15,15,0.95)] backdrop-blur-sm transition-all">
         <div className="flex-shrink-0 border-[rgba(255,255,255,0.1)] border-b px-6 py-4">
           <div className="flex items-center justify-between">
             <h2 id="help-modal-title" className="font-light text-[#e5e5e5] text-lg opacity-90">
@@ -369,7 +372,7 @@ export const HelpModal = ({ showHelp, config, setShowHelp }: HelpModalProps) => 
               type="button"
               onClick={() => setShowHelp(false)}
               aria-label="Close"
-              className="btn-clear"
+              className="cursor-pointer border-0 bg-transparent p-0 text-white/60 transition-all hover:text-white/90"
             >
               <X size={20} />
             </button>
@@ -389,7 +392,7 @@ export const HelpModal = ({ showHelp, config, setShowHelp }: HelpModalProps) => 
                 {getHelpText(config).map((item) => (
                   <div
                     key={`${item.keys}-${item.label}`}
-                    className="card-clear flex items-center justify-between"
+                    className="flex items-center justify-between rounded-xl border border-white/8 bg-[rgba(20,20,20,0.3)] p-4 backdrop-blur-sm transition-all hover:border-white/12 hover:bg-[rgba(20,20,20,0.4)]"
                   >
                     <span className="font-light text-[#e5e5e5] text-sm opacity-80">
                       {item.label}

@@ -15,7 +15,10 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
       {(['victory', 'defeat'] as const).map((type) => {
         const phase = config[type] || ({ name: '', next: 0, images: [], music: [] } as Phase)
         return (
-          <div key={type} className="card-clear">
+          <div
+            key={type}
+            className="rounded-xl border border-white/8 bg-[rgba(20,20,20,0.3)] p-4 backdrop-blur-sm transition-all hover:border-white/12 hover:bg-[rgba(20,20,20,0.4)]"
+          >
             <h3 className="mb-3 font-light text-[#e5e5e5] text-base capitalize opacity-80">
               {type}
             </h3>
@@ -32,7 +35,7 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                   type="text"
                   value={phase.name || ''}
                   onChange={(e) => updateConfig(type, { ...phase, name: e.target.value })}
-                  className="input-clear w-full"
+                  className="w-full rounded-lg border border-white/10 bg-[rgba(20,20,20,0.4)] px-3 py-2 text-[#e5e5e5] text-sm transition-all placeholder:text-white/30 focus:scale-[1.02] focus:border-white/25 focus:bg-[rgba(20,20,20,0.6)] focus:outline-none focus:ring-2 focus:ring-white/5"
                 />
               </div>
               <div>
@@ -52,7 +55,7 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                       next: Number.parseInt(e.target.value, 10) || 0,
                     })
                   }
-                  className="input-clear w-full"
+                  className="w-full rounded-lg border border-white/10 bg-[rgba(20,20,20,0.4)] px-3 py-2 text-[#e5e5e5] text-sm transition-all placeholder:text-white/30 focus:scale-[1.02] focus:border-white/25 focus:bg-[rgba(20,20,20,0.6)] focus:outline-none focus:ring-2 focus:ring-white/5"
                 />
               </div>
               <div>
@@ -75,7 +78,7 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                             updateConfig(type, { ...phase, images: newImages })
                           }}
                           placeholder="image.jpg"
-                          className="input-clear flex-1"
+                          className="flex-1 rounded-lg border border-white/10 bg-[rgba(20,20,20,0.4)] px-3 py-2 text-[#e5e5e5] text-sm transition-all placeholder:text-white/30 focus:scale-[1.02] focus:border-white/25 focus:bg-[rgba(20,20,20,0.6)] focus:outline-none focus:ring-2 focus:ring-white/5"
                         />
                         <button
                           type="button"
@@ -85,7 +88,7 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                             )
                             updateConfig(type, { ...phase, images: newImages })
                           }}
-                          className="btn-clear"
+                          className="cursor-pointer border-0 bg-transparent p-0 text-white/60 transition-all hover:text-white/90"
                           title="Remove image"
                         >
                           <X size={16} />
@@ -100,7 +103,7 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                       const newImages = [...(phase.images || []), '']
                       updateConfig(type, { ...phase, images: newImages })
                     }}
-                    className="btn-clear flex items-center gap-1 font-light text-sm"
+                    className="flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 font-light text-sm text-white/60 transition-all hover:text-white/90"
                   >
                     <Plus size={16} />
                     Add Image
@@ -126,7 +129,7 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                           updateConfig(type, { ...phase, music: newMusic })
                         }}
                         placeholder="music.mp3"
-                        className="input-clear flex-1"
+                        className="flex-1 rounded-lg border border-white/10 bg-[rgba(20,20,20,0.4)] px-3 py-2 text-[#e5e5e5] text-sm transition-all placeholder:text-white/30 focus:scale-[1.02] focus:border-white/25 focus:bg-[rgba(20,20,20,0.6)] focus:outline-none focus:ring-2 focus:ring-white/5"
                       />
                       <button
                         type="button"
@@ -136,7 +139,7 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                           )
                           updateConfig(type, { ...phase, music: newMusic })
                         }}
-                        className="btn-clear"
+                        className="cursor-pointer border-0 bg-transparent p-0 text-white/60 transition-all hover:text-white/90"
                         title="Remove music"
                       >
                         <X size={16} />
@@ -149,7 +152,7 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                       const newMusic = [...(phase.music || []), '']
                       updateConfig(type, { ...phase, music: newMusic })
                     }}
-                    className="btn-clear flex items-center gap-1 font-light text-sm"
+                    className="flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 font-light text-sm text-white/60 transition-all hover:text-white/90"
                   >
                     <Plus size={16} />
                     Add Music

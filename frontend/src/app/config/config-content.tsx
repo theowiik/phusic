@@ -84,7 +84,7 @@ export function ConfigContent() {
     <div className="min-h-screen bg-[#0a0a0a]">
       <div className="mx-auto max-w-6xl p-6">
         {/* Header */}
-        <div className="card-clear mb-4 p-6">
+        <div className="mb-4 rounded-xl border border-white/8 bg-[rgba(20,20,20,0.3)] p-6 backdrop-blur-sm transition-all hover:border-white/12 hover:bg-[rgba(20,20,20,0.4)]">
           <div className="mb-4 flex items-start justify-between">
             <div>
               <h1 className="mb-1 font-light text-[#e5e5e5] text-lg opacity-90">Config Builder</h1>
@@ -96,7 +96,7 @@ export function ConfigContent() {
               <button
                 type="button"
                 onClick={handleCopyJSON}
-                className="btn-clear flex items-center gap-2 font-light text-sm"
+                className="flex cursor-pointer items-center gap-2 border-0 bg-transparent p-0 font-light text-sm text-white/60 transition-all hover:text-white/90"
               >
                 <Copy size={16} />
                 Copy JSON
@@ -105,26 +105,29 @@ export function ConfigContent() {
                 type="button"
                 onClick={handleSave}
                 disabled={saving}
-                className="btn-clear flex items-center gap-2 font-light text-sm disabled:cursor-not-allowed disabled:opacity-30"
+                className="flex cursor-pointer items-center gap-2 border-0 bg-transparent p-0 font-light text-sm text-white/60 transition-all hover:text-white/90 disabled:cursor-not-allowed disabled:opacity-30"
               >
                 <Download size={16} />
                 {saving ? 'Saving...' : 'Download'}
               </button>
-              <Link href="/" className="btn-clear flex items-center gap-2 font-light text-sm">
+              <Link
+                href="/"
+                className="flex cursor-pointer items-center gap-2 border-0 bg-transparent p-0 font-light text-sm text-white/60 transition-all hover:text-white/90"
+              >
                 <ArrowLeft size={16} />
                 Back
               </Link>
             </div>
           </div>
           {saveMessage && (
-            <div className="card-clear px-4 py-3 font-light text-[#e5e5e5] text-sm opacity-70">
+            <div className="rounded-xl border border-white/8 bg-[rgba(20,20,20,0.3)] px-4 py-3 font-light text-[#e5e5e5] text-sm opacity-70 backdrop-blur-sm transition-all hover:border-white/12 hover:bg-[rgba(20,20,20,0.4)]">
               {saveMessage}
             </div>
           )}
         </div>
 
         {/* Tabs */}
-        <div className="card-clear">
+        <div className="rounded-xl border border-white/8 bg-[rgba(20,20,20,0.3)] backdrop-blur-sm transition-all hover:border-white/12 hover:bg-[rgba(20,20,20,0.4)]">
           <div className="border-[rgba(255,255,255,0.1)] border-b">
             <nav className="flex gap-2 p-3">
               {[

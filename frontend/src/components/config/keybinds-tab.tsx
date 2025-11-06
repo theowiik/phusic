@@ -42,12 +42,12 @@ export const KeybindsTab = ({
                       updateConfig(`keybinds.${key}`, newKb)
                     }}
                     placeholder="key"
-                    className="input-clear flex-1"
+                    className="flex-1 rounded-lg border border-white/10 bg-[rgba(20,20,20,0.4)] px-3 py-2 text-[#e5e5e5] text-sm transition-all placeholder:text-white/30 focus:scale-[1.02] focus:border-white/25 focus:bg-[rgba(20,20,20,0.6)] focus:outline-none focus:ring-2 focus:ring-white/5"
                   />
                   <button
                     type="button"
                     onClick={() => removeArrayItem(`keybinds.${key}`, idx)}
-                    className="btn-clear"
+                    className="cursor-pointer border-0 bg-transparent p-0 text-white/60 transition-all hover:text-white/90"
                     title="Remove"
                   >
                     <X size={16} />
@@ -57,7 +57,7 @@ export const KeybindsTab = ({
               <button
                 type="button"
                 onClick={() => addArrayItem(`keybinds.${key}`, '')}
-                className="btn-clear flex items-center gap-1 font-light text-sm"
+                className="flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 font-light text-sm text-white/60 transition-all hover:text-white/90"
               >
                 <Plus size={16} />
                 Add
@@ -71,7 +71,7 @@ export const KeybindsTab = ({
           <button
             type="button"
             onClick={() => updateConfig('keybinds.nextPhase', [''])}
-            className="btn-clear flex items-center gap-1 font-light text-sm"
+            className="flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 font-light text-sm text-white/60 transition-all hover:text-white/90"
           >
             <Plus size={16} />
             Add Next Phase Keybind
