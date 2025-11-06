@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { Copy, Download, ArrowLeft } from 'lucide-react'
 import { GeneralTab } from '../../components/config/general-tab'
 import { KeybindsTab } from '../../components/config/keybinds-tab'
 import { PhasesTab } from '../../components/config/phases-tab'
@@ -73,57 +74,62 @@ export function ConfigContent() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
-        <div className="font-medium text-gray-600 text-lg">Loading config...</div>
+      <div className="flex min-h-screen items-center justify-center bg-[#0a0a0a]">
+        <div className="text-[#e5e5e5] opacity-50 font-light text-sm">
+          Loading config...
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <div className="mx-auto max-w-6xl p-8">
+    <div className="min-h-screen bg-[#0a0a0a]">
+      <div className="mx-auto max-w-6xl p-6">
         {/* Header */}
-        <div className="mb-6 rounded-2xl bg-white p-8 shadow-lg">
-          <div className="mb-6 flex items-start justify-between">
+        <div className="card-clear mb-4 p-6">
+          <div className="mb-4 flex items-start justify-between">
             <div>
-              <h1 className="mb-2 font-bold text-3xl text-gray-900">Config Builder</h1>
-              <p className="text-gray-600">Edit your game configuration</p>
+              <h1 className="mb-1 font-light text-lg text-[#e5e5e5] opacity-90">Config Builder</h1>
+              <p className="text-[#e5e5e5] text-sm opacity-60 font-light">Edit your game configuration</p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               <button
                 type="button"
                 onClick={handleCopyJSON}
-                className="rounded-xl border border-gray-300 bg-white px-5 py-2.5 font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50 hover:shadow active:scale-95"
+                className="btn-clear flex items-center gap-2 text-sm font-light"
               >
+                <Copy size={16} />
                 Copy JSON
               </button>
               <button
                 type="button"
                 onClick={handleSave}
                 disabled={saving}
-                className="rounded-xl bg-blue-600 px-5 py-2.5 font-medium text-white shadow-lg transition-all hover:bg-blue-700 hover:shadow-xl active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+                className="btn-clear flex items-center gap-2 text-sm font-light disabled:opacity-30 disabled:cursor-not-allowed"
               >
-                {saving ? 'Saving...' : 'Download Config'}
+                <Download size={16} />
+                {saving ? 'Saving...' : 'Download'}
               </button>
               <Link
                 href="/"
-                className="rounded-xl bg-gray-600 px-5 py-2.5 font-medium text-white shadow-lg transition-all hover:bg-gray-700 hover:shadow-xl active:scale-95"
+                className="btn-clear flex items-center gap-2 text-sm font-light"
               >
-                Back to Game
+                <ArrowLeft size={16} />
+                Back
               </Link>
             </div>
           </div>
           {saveMessage && (
-            <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-green-800 shadow-sm">
+            <div className="card-clear px-4 py-3 text-[#e5e5e5] text-sm opacity-70 font-light">
               {saveMessage}
             </div>
           )}
         </div>
 
         {/* Tabs */}
-        <div className="rounded-2xl bg-white shadow-lg">
-          <div className="border-gray-200 border-b">
-            <nav className="flex gap-2 p-4">
+        <div className="card-clear">
+          <div className="border-b border-[rgba(255,255,255,0.1)]">
+            <nav className="flex gap-2 p-3">
               {[
                 { id: 'general', label: 'General' },
                 { id: 'keybinds', label: 'Keybinds' },
@@ -134,10 +140,10 @@ export function ConfigContent() {
                   key={tab.id}
                   type="button"
                   onClick={() => setActiveTab(tab.id)}
-                  className={`rounded-xl px-5 py-2.5 font-medium transition-all ${
+                  className={`rounded px-4 py-2 font-light text-sm transition-opacity ${
                     activeTab === tab.id
-                      ? 'bg-blue-600 text-white shadow-md'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? 'text-[#e5e5e5] opacity-90'
+                      : 'text-[#e5e5e5] opacity-50 hover:opacity-70'
                   }`}
                 >
                   {tab.label}
@@ -146,7 +152,7 @@ export function ConfigContent() {
             </nav>
           </div>
 
-          <div className="p-8">
+          <div className="p-6">
             {activeTab === 'general' && <GeneralTab config={config} updateConfig={updateConfig} />}
             {activeTab === 'keybinds' && (
               <KeybindsTab

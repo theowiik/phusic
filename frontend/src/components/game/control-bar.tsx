@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { Volume2, VolumeX, HelpCircle, Settings } from 'lucide-react'
 
 interface ControlBarProps {
   muted: boolean
@@ -10,14 +11,14 @@ interface ControlBarProps {
 
 export const ControlBar = ({ muted, setMuted, setShowHelp }: ControlBarProps) => {
   return (
-    <div className="flex gap-3">
+    <div className="flex items-center gap-3">
       <button
         type="button"
         onClick={() => setMuted(!muted)}
         title={muted ? 'Unmute' : 'Mute'}
-        className="flex items-center justify-center gap-2 rounded-xl bg-white/95 px-6 py-3 font-medium text-gray-900 text-lg shadow-lg backdrop-blur-sm transition-all hover:bg-white hover:shadow-xl active:scale-95"
+        className="btn-clear"
       >
-        <span className="text-2xl leading-none">{muted ? '🔇' : '🔊'}</span>
+        {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
       </button>
 
       <button
@@ -27,16 +28,17 @@ export const ControlBar = ({ muted, setMuted, setShowHelp }: ControlBarProps) =>
           setShowHelp(true)
         }}
         title="Show keyboard shortcuts"
-        className="flex-1 rounded-xl bg-white/95 px-6 py-3 font-medium text-gray-900 shadow-lg backdrop-blur-sm transition-all hover:bg-white hover:shadow-xl active:scale-[0.98]"
+        className="btn-clear"
       >
-        Shortcuts
+        <HelpCircle size={18} />
       </button>
 
       <Link
         href="/config"
-        className="flex-1 rounded-xl bg-white/95 px-6 py-3 text-center font-medium text-gray-900 shadow-lg backdrop-blur-sm transition-all hover:bg-white hover:shadow-xl active:scale-[0.98]"
+        title="Configuration"
+        className="btn-clear"
       >
-        Config
+        <Settings size={18} />
       </Link>
     </div>
   )

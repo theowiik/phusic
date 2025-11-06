@@ -13,6 +13,7 @@ import ReactFlow, {
 } from 'reactflow'
 import dagre from 'dagre'
 import 'reactflow/dist/style.css'
+import { X } from 'lucide-react'
 
 import type { Config, HelpItem, Phase } from '../../types'
 import { formatKeys } from '../../utils/keybinds'
@@ -66,9 +67,9 @@ const SelfLoopEdge = ({ id, sourceX, sourceY, style, markerEnd, label, labelStyl
             y={-8}
             width={labelWidth}
             height={16}
-            fill={labelBgStyle?.fill || 'white'}
+            fill={labelBgStyle?.fill || 'rgba(20, 20, 20, 0.8)'}
             fillOpacity={labelBgStyle?.fillOpacity || 0.95}
-            stroke={labelBgStyle?.stroke || '#3b82f6'}
+            stroke={labelBgStyle?.stroke || 'rgba(255, 255, 255, 0.1)'}
             strokeWidth={labelBgStyle?.strokeWidth || 1}
             rx={4}
           />
@@ -158,16 +159,16 @@ const PhaseDiagram = ({ phases, nextPhaseKeybind }: PhaseDiagramProps) => {
           label: (
             <div className="flex flex-col items-center justify-center gap-1 p-3 h-full">
               {isStartNode && (
-                <div className="mb-1 rounded-full bg-blue-100 px-2 py-0.5 text-blue-700 text-xs font-bold">
+                <div className="mb-1 rounded-full bg-[rgba(20,20,20,0.4)] border border-[rgba(255,255,255,0.1)] px-2 py-0.5 text-[#e5e5e5] text-xs font-light opacity-60">
                   START
                 </div>
               )}
-              <div className="font-semibold text-gray-900 text-sm text-center leading-tight">
+              <div className="font-light text-[#e5e5e5] text-sm text-center leading-tight opacity-80">
                 {phase.name}
               </div>
-              <div className="text-gray-500 text-xs">#{index}</div>
+              <div className="text-[#e5e5e5] text-xs opacity-50">#{index}</div>
               {hasDirectKeybind && (
-                <div className="mt-1 font-medium text-green-600 text-xs">
+                <div className="mt-1 font-light text-[#e5e5e5] text-xs opacity-50">
                   {formatKeys(phase.keybind!)}
                 </div>
               )}
@@ -178,13 +179,12 @@ const PhaseDiagram = ({ phases, nextPhaseKeybind }: PhaseDiagramProps) => {
           width: nodeWidth,
           height: nodeHeight,
           border: hasDirectKeybind 
-            ? '3px solid #10b981' 
+            ? '2px solid rgba(255, 255, 255, 0.2)' 
             : isStartNode 
-              ? '3px solid #3b82f6' 
-              : '2px solid #6b7280',
+              ? '2px solid rgba(255, 255, 255, 0.15)' 
+              : '1px solid rgba(255, 255, 255, 0.1)',
           borderRadius: '50%', // Make it circular
-          backgroundColor: isStartNode ? '#eff6ff' : 'white',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          backgroundColor: 'rgba(20, 20, 20, 0.6)',
         },
       }
     })
@@ -218,25 +218,25 @@ const PhaseDiagram = ({ phases, nextPhaseKeybind }: PhaseDiagramProps) => {
         animated: false,
         label: keybindLabel,
         labelStyle: {
-          fill: '#3b82f6',
-          fontWeight: 600,
-          fontSize: '12px',
+          fill: 'rgba(229, 229, 229, 0.8)',
+          fontWeight: 400,
+          fontSize: '11px',
         },
         labelBgStyle: {
-          fill: 'white',
+          fill: 'rgba(20, 20, 20, 0.8)',
           fillOpacity: 0.95,
-          stroke: '#3b82f6',
+          stroke: 'rgba(255, 255, 255, 0.1)',
           strokeWidth: 1,
         },
         style: {
-          stroke: '#3b82f6',
-          strokeWidth: 2,
+          stroke: 'rgba(255, 255, 255, 0.15)',
+          strokeWidth: 1.5,
         },
         markerEnd: {
           type: MarkerType.ArrowClosed,
-          color: '#3b82f6',
-          width: 20,
-          height: 20,
+          color: 'rgba(255, 255, 255, 0.15)',
+          width: 18,
+          height: 18,
         },
       })
     })
@@ -248,9 +248,9 @@ const PhaseDiagram = ({ phases, nextPhaseKeybind }: PhaseDiagramProps) => {
   if (!phases || phases.length === 0) return null
 
   return (
-    <div className="mt-8">
-      <h3 className="mb-4 font-semibold text-lg text-gray-900">Phase State Diagram</h3>
-      <div className="rounded-lg bg-gray-50 p-4" style={{ height: '600px', minHeight: '400px' }}>
+      <div className="flex flex-col h-full">
+      <h3 className="mb-4 font-light text-sm text-[#e5e5e5] opacity-60">Phase State Diagram</h3>
+      <div className="card-clear flex-1" style={{ minHeight: '600px', height: '100%' }}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -266,31 +266,31 @@ const PhaseDiagram = ({ phases, nextPhaseKeybind }: PhaseDiagramProps) => {
           minZoom={0.3}
           maxZoom={2}
         >
-          <Background gap={20} size={1} />
+          <Background gap={20} size={1} color="rgba(255, 255, 255, 0.03)" />
           <Controls showInteractive={false} />
         </ReactFlow>
       </div>
-      <div className="mt-4 space-y-2 text-sm text-gray-600">
+      <div className="mt-4 space-y-2 text-xs text-[#e5e5e5] opacity-50">
         <p>
-          <span className="font-semibold">Blue circle with "START":</span> The initial phase where the game begins
+          <span className="font-light opacity-70">Circle with "START":</span> The initial phase where the game begins
         </p>
         <p>
-          <span className="font-semibold">Green border:</span> Phase has a direct keybind (shown on the phase) to jump directly to it
+          <span className="font-light opacity-70">Thicker border:</span> Phase has a direct keybind (shown on the phase) to jump directly to it
         </p>
         <p>
-          <span className="font-semibold">Arrows:</span> Show the flow from one phase to the next
+          <span className="font-light opacity-70">Arrows:</span> Show the flow from one phase to the next
         </p>
         {nextPhaseKeybind && (
           <p>
-            <span className="font-semibold">Arrow labels:</span> Show the keybind{' '}
-            <kbd className="rounded bg-gray-200 px-2 py-1 font-mono text-xs">
+            <span className="font-light opacity-70">Arrow labels:</span> Show the keybind{' '}
+            <kbd className="bg-[rgba(20,20,20,0.4)] border border-[rgba(255,255,255,0.1)] rounded px-2 py-1 font-mono text-xs text-[#e5e5e5] opacity-60">
               {formatKeys(nextPhaseKeybind)}
             </kbd>{' '}
             to advance to the next phase
           </p>
         )}
         <p>
-          <span className="font-semibold">Self-loops:</span> End states that loop back to themselves
+          <span className="font-light opacity-70">Self-loops:</span> End states that loop back to themselves
         </p>
       </div>
     </div>
@@ -343,7 +343,7 @@ export const HelpModal = ({ showHelp, config, setShowHelp }: HelpModalProps) => 
       role="dialog"
       aria-modal="true"
       aria-labelledby="help-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           setShowHelp(false)
@@ -355,57 +355,70 @@ export const HelpModal = ({ showHelp, config, setShowHelp }: HelpModalProps) => 
         }
       }}
     >
-      <div className="w-full max-w-2xl rounded-2xl bg-white/95 p-8 shadow-2xl backdrop-blur-md">
-        <div className="mb-8 flex items-center justify-between">
-          <h2 id="help-modal-title" className="font-bold text-3xl text-gray-900">
-            Keyboard Shortcuts
-          </h2>
-          <button
-            type="button"
-            onClick={() => setShowHelp(false)}
-            aria-label="Close"
-            className="rounded-lg p-2 text-2xl text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900"
-          >
-            ×
-          </button>
+      <div className="card-clear flex w-full max-w-7xl max-h-[90vh] flex-col rounded-lg bg-[rgba(15,15,15,0.95)] border border-[rgba(255,255,255,0.1)]">
+        <div className="flex-shrink-0 border-b border-[rgba(255,255,255,0.1)] px-6 py-4">
+          <div className="flex items-center justify-between">
+            <h2 id="help-modal-title" className="font-light text-lg text-[#e5e5e5] opacity-90">
+              Keyboard Shortcuts
+            </h2>
+            <button
+              type="button"
+              onClick={() => setShowHelp(false)}
+              aria-label="Close"
+              className="btn-clear"
+            >
+              <X size={20} />
+            </button>
+          </div>
         </div>
 
-        <div className="space-y-2">
-          {getHelpText(config).map((item) => (
-            <div
-              key={`${item.keys}-${item.label}`}
-              className="flex items-center justify-between rounded-lg bg-gray-50 px-5 py-3 transition-colors hover:bg-gray-100"
-            >
-              <span className="font-medium text-gray-900">{item.label}</span>
-              <div className="flex gap-2">
-                {item.keys.split('/').map((key) => (
-                  <kbd
-                    key={key}
-                    className="rounded-md bg-gray-200 px-3 py-1.5 font-mono font-semibold text-gray-800 text-sm shadow-sm"
+        <div className="flex-1 overflow-y-auto px-6 py-4">
+          <div className={`grid gap-6 ${config.phases && config.phases.length > 0 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+            {/* Left column: Shortcuts table */}
+            <div className="flex flex-col">
+              <h3 className="mb-3 font-light text-xs text-[#e5e5e5] opacity-60">Keyboard Shortcuts</h3>
+              <div className="space-y-2 flex-1">
+                {getHelpText(config).map((item) => (
+                  <div
+                    key={`${item.keys}-${item.label}`}
+                    className="card-clear flex items-center justify-between"
                   >
-                    {key}
-                  </kbd>
+                    <span className="font-light text-[#e5e5e5] text-sm opacity-80">{item.label}</span>
+                    <div className="flex gap-2">
+                      {item.keys.split('/').map((key) => (
+                        <kbd
+                          key={key}
+                          className="bg-[rgba(20,20,20,0.4)] border border-[rgba(255,255,255,0.1)] rounded px-2.5 py-1 font-mono font-light text-[#e5e5e5] text-xs opacity-70"
+                        >
+                          {key}
+                        </kbd>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
-          ))}
-        </div>
 
-        {config.phases && config.phases.length > 0 && (
-          <PhaseDiagram
-            phases={config.phases}
-            nextPhaseKeybind={config.keybinds?.nextPhase}
-          />
-        )}
+            {/* Right column: Phase diagram */}
+            {config.phases && config.phases.length > 0 && (
+              <div className="flex flex-col">
+                <PhaseDiagram
+                  phases={config.phases}
+                  nextPhaseKeybind={config.keybinds?.nextPhase}
+                />
+              </div>
+            )}
+          </div>
 
-        <div className="mt-8 text-center">
-          <p className="text-gray-500 text-sm">
-            Press{' '}
-            <kbd className="rounded bg-gray-200 px-2 py-1 font-mono font-semibold text-gray-800 text-xs">
-              ESC
-            </kbd>{' '}
-            to close
-          </p>
+          <div className="mt-6 text-center">
+            <p className="text-[#e5e5e5] text-xs opacity-50">
+              Press{' '}
+              <kbd className="bg-[rgba(20,20,20,0.4)] border border-[rgba(255,255,255,0.1)] rounded px-2 py-1 font-mono font-light text-[#e5e5e5] text-xs opacity-70">
+                ESC
+              </kbd>{' '}
+              to close
+            </p>
+          </div>
         </div>
       </div>
     </div>

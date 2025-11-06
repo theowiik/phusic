@@ -1,5 +1,6 @@
 'use client'
 
+import { Plus, X } from 'lucide-react'
 import type { Config } from '../../types'
 
 interface KeybindsTabProps {
@@ -18,12 +19,12 @@ export const KeybindsTab = ({
   const hasNextPhase = config.keybinds?.nextPhase !== undefined
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {Object.entries(config.keybinds || {}).map(([key, value]) => {
         const keybindValue = value as string[]
         return (
           <div key={key}>
-            <label htmlFor={`keybinds-${key}`} className="mb-2 block font-medium text-gray-700">
+            <label htmlFor={`keybinds-${key}`} className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70">
               {key.replace(/([A-Z])/g, ' $1').trim()}
             </label>
             <div className="space-y-2">
@@ -38,23 +39,25 @@ export const KeybindsTab = ({
                       updateConfig(`keybinds.${key}`, newKb)
                     }}
                     placeholder="key"
-                    className="flex-1 rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                    className="input-clear flex-1"
                   />
                   <button
                     type="button"
                     onClick={() => removeArrayItem(`keybinds.${key}`, idx)}
-                    className="rounded bg-red-600 px-3 py-2 font-bold text-white transition hover:bg-red-700"
+                    className="btn-clear"
+                    title="Remove"
                   >
-                    ×
+                    <X size={16} />
                   </button>
                 </div>
               ))}
               <button
                 type="button"
                 onClick={() => addArrayItem(`keybinds.${key}`, '')}
-                className="rounded bg-green-600 px-4 py-2 font-medium text-white transition hover:bg-green-700"
+                className="btn-clear flex items-center gap-1 text-sm font-light"
               >
-                + Add
+                <Plus size={16} />
+                Add
               </button>
             </div>
           </div>
@@ -65,9 +68,10 @@ export const KeybindsTab = ({
           <button
             type="button"
             onClick={() => updateConfig('keybinds.nextPhase', [''])}
-            className="rounded bg-blue-600 px-4 py-2 font-medium text-white transition hover:bg-blue-700"
+            className="btn-clear flex items-center gap-1 text-sm font-light"
           >
-            + Add Next Phase Keybind
+            <Plus size={16} />
+            Add Next Phase Keybind
           </button>
         </div>
       )}

@@ -1,5 +1,6 @@
 'use client'
 
+import { Plus, X, Trash2 } from 'lucide-react'
 import type { Config } from '../../types'
 import { ImagePreview } from './image-preview'
 
@@ -17,30 +18,32 @@ export const PhasesTab = ({
   updateConfig,
 }: PhasesTabProps) => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {config.phases?.map((phase, phaseIdx) => (
         <div
           key={`phase-${phaseIdx}-${phase.name}`}
-          className="rounded-lg border border-gray-200 p-6"
+          className="card-clear"
         >
-          <div className="mb-4 flex items-center justify-between">
-            <h3 className="font-bold text-gray-900 text-xl">Phase {phaseIdx + 1}</h3>
+          <div className="mb-3 flex items-center justify-between">
+            <h3 className="font-light text-[#e5e5e5] text-base opacity-80">Phase {phaseIdx + 1}</h3>
             <button
               type="button"
               onClick={() => {
                 const newPhases = config.phases.filter((_, i) => i !== phaseIdx)
                 updateConfig('phases', newPhases)
               }}
-              className="rounded bg-red-600 px-3 py-1 font-medium text-white transition hover:bg-red-700"
+              className="btn-clear flex items-center gap-1 text-sm font-light"
+              title="Remove phase"
             >
+              <Trash2 size={16} />
               Remove
             </button>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div>
               <label
                 htmlFor={`phase-${phaseIdx}-name`}
-                className="mb-2 block font-medium text-gray-700"
+                className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70"
               >
                 Name
               </label>
@@ -51,13 +54,13 @@ export const PhasesTab = ({
                 onChange={(e) =>
                   updateArrayItem('phases', phaseIdx, { ...phase, name: e.target.value })
                 }
-                className="w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                className="input-clear w-full"
               />
             </div>
             <div>
               <label
                 htmlFor={`phase-${phaseIdx}-next`}
-                className="mb-2 block font-medium text-gray-700"
+                className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70"
               >
                 Next Phase Index
               </label>
@@ -71,13 +74,13 @@ export const PhasesTab = ({
                     next: Number.parseInt(e.target.value, 10) || 0,
                   })
                 }
-                className="w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                className="input-clear w-full"
               />
             </div>
             <div>
               <label
                 htmlFor={`phase-${phaseIdx}-keybind`}
-                className="mb-2 block font-medium text-gray-700"
+                className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70"
               >
                 Keybind (optional)
               </label>
@@ -96,7 +99,7 @@ export const PhasesTab = ({
                         })
                       }}
                       placeholder="key"
-                      className="flex-1 rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                      className="input-clear flex-1"
                     />
                     <button
                       type="button"
@@ -107,9 +110,10 @@ export const PhasesTab = ({
                           keybind: newKeybind.length > 0 ? newKeybind : undefined,
                         })
                       }}
-                      className="rounded bg-red-600 px-3 py-2 font-bold text-white transition hover:bg-red-700"
+                      className="btn-clear"
+                      title="Remove keybind"
                     >
-                      ×
+                      <X size={16} />
                     </button>
                   </div>
                 ))}
@@ -119,16 +123,17 @@ export const PhasesTab = ({
                     const newKeybind = [...(phase.keybind || []), '']
                     updateArrayItem('phases', phaseIdx, { ...phase, keybind: newKeybind })
                   }}
-                  className="rounded bg-green-600 px-4 py-2 font-medium text-white transition hover:bg-green-700"
+                  className="btn-clear flex items-center gap-1 text-sm font-light"
                 >
-                  + Add Keybind
+                  <Plus size={16} />
+                  Add Keybind
                 </button>
               </div>
             </div>
             <div>
               <label
                 htmlFor={`phase-${phaseIdx}-images`}
-                className="mb-2 block font-medium text-gray-700"
+                className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70"
               >
                 Images
               </label>
@@ -148,7 +153,7 @@ export const PhasesTab = ({
                           })
                         }}
                         placeholder="image.jpg"
-                        className="flex-1 rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                        className="input-clear flex-1"
                       />
                       <button
                         type="button"
@@ -159,9 +164,10 @@ export const PhasesTab = ({
                             images: newImages,
                           })
                         }}
-                        className="rounded bg-red-600 px-3 py-2 font-bold text-white transition hover:bg-red-700"
+                        className="btn-clear"
+                        title="Remove image"
                       >
-                        ×
+                        <X size={16} />
                       </button>
                     </div>
                     <ImagePreview imageName={img} assetsFolder={config.assets} />
@@ -173,16 +179,17 @@ export const PhasesTab = ({
                     const newImages = [...(phase.images || []), '']
                     updateArrayItem('phases', phaseIdx, { ...phase, images: newImages })
                   }}
-                  className="rounded bg-green-600 px-4 py-2 font-medium text-white transition hover:bg-green-700"
+                  className="btn-clear flex items-center gap-1 text-sm font-light"
                 >
-                  + Add Image
+                  <Plus size={16} />
+                  Add Image
                 </button>
               </div>
             </div>
             <div>
               <label
                 htmlFor={`phase-${phaseIdx}-music`}
-                className="mb-2 block font-medium text-gray-700"
+                className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70"
               >
                 Music
               </label>
@@ -198,7 +205,7 @@ export const PhasesTab = ({
                         updateArrayItem('phases', phaseIdx, { ...phase, music: newMusic })
                       }}
                       placeholder="music.mp3"
-                      className="flex-1 rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                      className="input-clear flex-1"
                     />
                     <button
                       type="button"
@@ -206,9 +213,10 @@ export const PhasesTab = ({
                         const newMusic = phase.music.filter((_, i) => i !== musIdx)
                         updateArrayItem('phases', phaseIdx, { ...phase, music: newMusic })
                       }}
-                      className="rounded bg-red-600 px-3 py-2 font-bold text-white transition hover:bg-red-700"
+                      className="btn-clear"
+                      title="Remove music"
                     >
-                      ×
+                      <X size={16} />
                     </button>
                   </div>
                 ))}
@@ -218,9 +226,10 @@ export const PhasesTab = ({
                     const newMusic = [...(phase.music || []), '']
                     updateArrayItem('phases', phaseIdx, { ...phase, music: newMusic })
                   }}
-                  className="rounded bg-green-600 px-4 py-2 font-medium text-white transition hover:bg-green-700"
+                  className="btn-clear flex items-center gap-1 text-sm font-light"
                 >
-                  + Add Music
+                  <Plus size={16} />
+                  Add Music
                 </button>
               </div>
             </div>
@@ -237,9 +246,10 @@ export const PhasesTab = ({
             music: [],
           })
         }
-        className="rounded bg-blue-600 px-4 py-2 font-medium text-white transition hover:bg-blue-700"
+        className="btn-clear flex items-center gap-1 text-sm font-light"
       >
-        + Add Phase
+        <Plus size={16} />
+        Add Phase
       </button>
     </div>
   )

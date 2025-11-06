@@ -1,5 +1,6 @@
 'use client'
 
+import { Plus, X } from 'lucide-react'
 import type { Config, Phase } from '../../types'
 import { ImagePreview } from './image-preview'
 
@@ -10,15 +11,15 @@ interface VictoryDefeatTabProps {
 
 export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps) => {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {(['victory', 'defeat'] as const).map((type) => {
         const phase = config[type] || ({ name: '', next: 0, images: [], music: [] } as Phase)
         return (
-          <div key={type} className="rounded-lg border border-gray-200 p-6">
-            <h3 className="mb-4 font-bold text-gray-900 text-xl capitalize">{type}</h3>
-            <div className="space-y-4">
+          <div key={type} className="card-clear">
+            <h3 className="mb-3 font-light text-[#e5e5e5] text-base capitalize opacity-80">{type}</h3>
+            <div className="space-y-3">
               <div>
-                <label htmlFor={`${type}-name`} className="mb-2 block font-medium text-gray-700">
+                <label htmlFor={`${type}-name`} className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70">
                   Name
                 </label>
                 <input
@@ -26,11 +27,11 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                   type="text"
                   value={phase.name || ''}
                   onChange={(e) => updateConfig(type, { ...phase, name: e.target.value })}
-                  className="w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                  className="input-clear w-full"
                 />
               </div>
               <div>
-                <label htmlFor={`${type}-next`} className="mb-2 block font-medium text-gray-700">
+                <label htmlFor={`${type}-next`} className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70">
                   Next Phase Index
                 </label>
                 <input
@@ -43,11 +44,11 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                       next: Number.parseInt(e.target.value, 10) || 0,
                     })
                   }
-                  className="w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                  className="input-clear w-full"
                 />
               </div>
               <div>
-                <label htmlFor={`${type}-images`} className="mb-2 block font-medium text-gray-700">
+                <label htmlFor={`${type}-images`} className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70">
                   Images
                 </label>
                 <div className="space-y-3">
@@ -63,7 +64,7 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                             updateConfig(type, { ...phase, images: newImages })
                           }}
                           placeholder="image.jpg"
-                          className="flex-1 rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                          className="input-clear flex-1"
                         />
                         <button
                           type="button"
@@ -73,9 +74,10 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                             )
                             updateConfig(type, { ...phase, images: newImages })
                           }}
-                          className="rounded bg-red-600 px-3 py-2 font-bold text-white transition hover:bg-red-700"
+                          className="btn-clear"
+                          title="Remove image"
                         >
-                          ×
+                          <X size={16} />
                         </button>
                       </div>
                       <ImagePreview imageName={img} assetsFolder={config.assets} />
@@ -87,14 +89,15 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                       const newImages = [...(phase.images || []), '']
                       updateConfig(type, { ...phase, images: newImages })
                     }}
-                    className="rounded bg-green-600 px-4 py-2 font-medium text-white transition hover:bg-green-700"
+                    className="btn-clear flex items-center gap-1 text-sm font-light"
                   >
-                    + Add Image
+                    <Plus size={16} />
+                    Add Image
                   </button>
                 </div>
               </div>
               <div>
-                <label htmlFor={`${type}-music`} className="mb-2 block font-medium text-gray-700">
+                <label htmlFor={`${type}-music`} className="mb-2 block font-light text-sm text-[#e5e5e5] opacity-70">
                   Music
                 </label>
                 <div className="space-y-2">
@@ -109,7 +112,7 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                           updateConfig(type, { ...phase, music: newMusic })
                         }}
                         placeholder="music.mp3"
-                        className="flex-1 rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                        className="input-clear flex-1"
                       />
                       <button
                         type="button"
@@ -119,9 +122,10 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                           )
                           updateConfig(type, { ...phase, music: newMusic })
                         }}
-                        className="rounded bg-red-600 px-3 py-2 font-bold text-white transition hover:bg-red-700"
+                        className="btn-clear"
+                        title="Remove music"
                       >
-                        ×
+                        <X size={16} />
                       </button>
                     </div>
                   ))}
@@ -131,9 +135,10 @@ export const VictoryDefeatTab = ({ config, updateConfig }: VictoryDefeatTabProps
                       const newMusic = [...(phase.music || []), '']
                       updateConfig(type, { ...phase, music: newMusic })
                     }}
-                    className="rounded bg-green-600 px-4 py-2 font-medium text-white transition hover:bg-green-700"
+                    className="btn-clear flex items-center gap-1 text-sm font-light"
                   >
-                    + Add Music
+                    <Plus size={16} />
+                    Add Music
                   </button>
                 </div>
               </div>

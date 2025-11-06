@@ -65,8 +65,10 @@ export function GameContent({ gameName }: GameContentProps = {}) {
 
   if (loading || !config || !currentPhase) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-900">
-        <div className="font-medium text-2xl text-white/80">Loading...</div>
+      <div className="flex min-h-screen items-center justify-center bg-[#0a0a0a]">
+        <div className="text-[#e5e5e5] opacity-50 font-light text-sm">
+          Loading...
+        </div>
       </div>
     )
   }
@@ -82,13 +84,13 @@ export function GameContent({ gameName }: GameContentProps = {}) {
 
       {/* Content Layer */}
       <div className="relative z-10 flex h-full flex-col">
-        {/* Phase Display - Centered */}
-        <div className="flex flex-1 items-center justify-center">
+        {/* Phase Display - Top Left Corner */}
+        <div className="absolute top-4 left-4">
           <PhaseDisplay currentPhase={currentPhase} />
         </div>
 
-        {/* Control Bar - Bottom */}
-        <div className="p-6 pb-8">
+        {/* Control Bar - Bottom Right Corner */}
+        <div className="absolute bottom-4 right-4">
           <ControlBar muted={muted} setMuted={setMuted} setShowHelp={setShowHelp} />
         </div>
       </div>

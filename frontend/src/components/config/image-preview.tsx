@@ -19,7 +19,7 @@ export const ImagePreview = ({ imageName, assetsFolder }: ImagePreviewProps) => 
       alt={imageName}
       width={128}
       height={128}
-      className="h-32 w-32 rounded border border-gray-300 object-cover"
+      className="h-32 w-32 rounded border border-[rgba(255,255,255,0.1)] object-cover bg-[rgba(20,20,20,0.3)]"
       onError={(e) => {
         e.currentTarget.style.display = 'none'
       }}
